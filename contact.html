@@ -448,21 +448,48 @@
             }
         });
 
-        // 2. Form Submission Effect
+        // 2. ASLI WHATSAPP REDIRECT LOGIC
         document.getElementById('royalContactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // Page refresh hone se rokega
+
+            // Form ki values uthana
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const event = document.getElementById('event').value;
+            const message = document.getElementById('message').value;
+
+            // Aapka WhatsApp Number (91 zaruri hai India ke liye)
+            const waNumber = "917827727703";
+
+            // WhatsApp ka Message Format Banana (%0A = enter/new line)
+            let waText = `*New Lead from Website!*%0A%0A`;
+            waText += `*Name:* ${name}%0A`;
+            waText += `*Phone:* ${phone}%0A`;
+            if(email) { waText += `*Email:* ${email}%0A`; } 
+            waText += `*Event Type:* ${event}%0A`;
+            waText += `*Message:* ${message}`;
+
+            // Naya link banana
+            const waURL = `https://wa.me/${waNumber}?text=${waText}`;
+
+            // Link ko naye tab mein kholna
+            window.open(waURL, '_blank');
+
+            // Submit Button ka UI change karna (Taki customer ko pata chale)
             const btn = document.querySelector('.btn-submit');
             const originalText = btn.innerHTML;
             
-            btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Message Sent Successfully!';
-            btn.style.backgroundColor = '#28a745'; 
+            btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i> Redirecting to WhatsApp...';
+            btn.style.backgroundColor = '#25D366'; // Official WhatsApp Green Color
             
-            this.reset();
+            this.reset(); // Form clear karna
             
+            // 4 second baad button wapas normal karna
             setTimeout(() => {
                 btn.innerHTML = originalText;
                 btn.style.backgroundColor = 'var(--primary-color)';
-            }, 3000);
+            }, 4000);
         });
     </script>
 </body>
