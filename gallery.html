@@ -118,6 +118,12 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             height: 250px;
             background-color: #000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .gallery-item img, .gallery-item video {
@@ -128,6 +134,13 @@
         }
 
         .gallery-item:hover img { transform: scale(1.1); }
+        
+        .loading-text {
+            grid-column: 1 / -1;
+            font-size: 1.2rem;
+            color: #666;
+            margin: 40px 0;
+        }
 
         /* --- FOOTER --- */
         footer {
@@ -196,37 +209,7 @@
         </div>
 
         <div class="gallery-grid" id="gallery-grid">
-            
-            <div class="gallery-item wedding"><img src="event1.jpeg" alt="Wedding Event 1"></div>
-            <div class="gallery-item wedding"><img src="event2.jpeg" alt="Wedding Event 2"></div>
-            <div class="gallery-item wedding"><img src="event3.jpeg" alt="Wedding Event 3"></div>
-            <div class="gallery-item wedding"><img src="event4.jpeg" alt="Wedding Event 4"></div>
-            <div class="gallery-item wedding"><img src="event5.jpeg" alt="Wedding Event 5"></div>
-            <div class="gallery-item wedding"><img src="event6.jpeg" alt="Wedding Event 6"></div>
-            <div class="gallery-item wedding"><img src="event7.jpeg" alt="Wedding Event 7"></div>
-            <div class="gallery-item wedding"><img src="event8.jpeg" alt="Wedding Event 8"></div>
-            <div class="gallery-item wedding"><img src="event9.jpeg" alt="Wedding Event 9"></div>
-            <div class="gallery-item wedding"><img src="event10.jpeg" alt="Wedding Event 10"></div>
-            <div class="gallery-item wedding"><img src="event11.jpeg" alt="Wedding Event 11"></div>
-            <div class="gallery-item wedding"><img src="event12.jpeg" alt="Wedding Event 12"></div>
-            <div class="gallery-item wedding"><img src="event13.jpeg" alt="Wedding Event 13"></div>
-            <div class="gallery-item wedding"><img src="event14.jpeg" alt="Wedding Event 14"></div>
-            <div class="gallery-item wedding"><img src="event15.jpeg" alt="Wedding Event 15"></div>
-            <div class="gallery-item wedding"><img src="event16.jpeg" alt="Wedding Event 16"></div>
-            <div class="gallery-item wedding"><img src="event17.jpeg" alt="Wedding Event 17"></div>
-            <div class="gallery-item wedding"><img src="event18.jpeg" alt="Wedding Event 18"></div>
-            <div class="gallery-item wedding"><img src="event19.jpeg" alt="Wedding Event 19"></div>
-            <div class="gallery-item wedding"><img src="event20.jpeg" alt="Wedding Event 20"></div>
-
-            <div class="gallery-item birthday">
-                <img src="https://images.pexels.com/photos/30682922/pexels-photo-30682922.jpeg?cs=srgb&dl=pexels-jonathan-valdes-286676880-30682922.jpg&fm=jpg" alt="Birthday Demo">
-            </div>
-            <div class="gallery-item video">
-                <video controls poster="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop">
-                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                </video>
-            </div>
-            
+            <div class="loading-text" id="loading-msg"><i class="fa-solid fa-spinner fa-spin"></i> Loading magical moments...</div>
         </div>
     </section>
 
@@ -243,6 +226,7 @@
     <a href="https://wa.me/918927727703" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
 
     <script>
+        // --- Mobile Menu Logic ---
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
 
@@ -257,24 +241,86 @@
             }
         });
 
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const galleryItems = document.querySelectorAll('.gallery-item');
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuBtn.classList.remove('fa-xmark');
+                menuBtn.classList.add('fa-bars');
+            });
+        });
 
+        // --- DYNAMIC GALLERY FETCH LOGIC ---
+        const SERVER_URL = "https://the-royal-events-admin.onrender.com";
+        const galleryGrid = document.getElementById('gallery-grid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Function to load media from Database
+        async function loadGallery() {
+            try {
+                const response = await fetch(`${SERVER_URL}/media`);
+                const data = await response.json();
+
+                galleryGrid.innerHTML = ''; // Clear loading message
+
+                if (data.items && data.items.length > 0) {
+                    data.items.forEach(item => {
+                        // Check if URL belongs to a video
+                        const isVideo = item.url.match(/\.(mp4|mov|webm)$/i);
+                        
+                        let mediaTag = '';
+                        if (isVideo || item.category === 'video') {
+                            mediaTag = `<video controls src="${item.url}"></video>`;
+                        } else {
+                            mediaTag = `<img src="${item.url}" alt="${item.category} event">`;
+                        }
+
+                        // Create the gallery item div
+                        const div = document.createElement('div');
+                        div.className = `gallery-item ${item.category}`; // Category (wedding/birthday/video) class add ki
+                        div.innerHTML = mediaTag;
+                        
+                        galleryGrid.appendChild(div);
+                    });
+                } else {
+                    galleryGrid.innerHTML = '<div class="loading-text">Gallery is currently empty. Photos uploaded by Admin will appear here.</div>';
+                }
+
+                // Apply active filter (In case 'All' is selected by default)
+                applyFilters();
+
+            } catch (error) {
+                console.error("Error Fetching Gallery:", error);
+                galleryGrid.innerHTML = '<div class="loading-text" style="color: red;">Failed to load memories. Please check your internet or server.</div>';
+            }
+        }
+
+        // Function to filter photos/videos based on category
+        function applyFilters() {
+            const activeBtn = document.querySelector('.filter-btn.active');
+            const filterValue = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+            const galleryItems = document.querySelectorAll('.gallery-item'); // Naye aaye elements ko select kiya
+
+            galleryItems.forEach(item => {
+                if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Button click event logic
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 filterBtns.forEach(button => button.classList.remove('active'));
                 btn.classList.add('active');
-                const filterValue = btn.getAttribute('data-filter');
-
-                galleryItems.forEach(item => {
-                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
+                applyFilters(); // Filter function run karo
             });
         });
+
+        // Load the gallery as soon as the page opens
+        loadGallery();
     </script>
 </body>
 </html>
