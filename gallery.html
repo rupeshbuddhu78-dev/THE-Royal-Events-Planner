@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - The Royal Events</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #d4af37;
+            --secondary-color: #1a1a2e;
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #f9f9f9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--secondary-color); }
+
+        /* --- NAVBAR --- */
+        header {
+            background-color: rgba(26, 26, 46, 0.95);
+            padding: 20px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-color); }
+
+        #menu-btn { display: none; color: var(--primary-color); font-size: 24px; cursor: pointer; }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 26, 46, 0.7), rgba(26, 26, 46, 0.8)), url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 70px; /* Space for navbar */
+        }
+        .page-header h1 { color: var(--primary-color); font-size: 3rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* --- GALLERY SECTION --- */
+        .gallery-section { padding: 60px 10%; background-color: #fff; text-align: center; min-height: 50vh; }
+        
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .filter-btn {
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--secondary-color);
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 250px;
+            background-color: #000;
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img { transform: scale(1.1); }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            padding: 60px 10% 20px;
+            text-align: center;
+        }
+        .footer-content { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; align-items: center; }
+        .footer-logo { font-size: 2rem; color: var(--primary-color); font-family: 'Playfair Display', serif; margin-bottom: 10px; }
+        .footer-info { display: flex; align-items: center; gap: 10px; font-size: 1.1rem; justify-content: center; }
+        .footer-info i { color: var(--primary-color); }
+        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 0.9rem; color: #ccc; }
+
+        /* --- FLOATING WHATSAPP BUTTON --- */
+        .whatsapp-float {
+            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
+            background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center;
+            font-size: 30px; box-shadow: 2px 2px 15px rgba(0,0,0,0.2); z-index: 1000;
+            display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.3s ease;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); background-color: #20b858; }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            #menu-btn { display: block; }
+            .nav-links {
+                position: absolute; top: 100%; left: -100%; width: 100%;
+                background-color: rgba(26, 26, 46, 0.98); flex-direction: column; align-items: center;
+                padding: 30px 0; transition: left 0.3s ease;
+            }
+            .nav-links.active { left: 0; }
+            .nav-links a { font-size: 1.2rem; padding: 10px 0; }
+            .page-header h1 { font-size: 2.2rem; }
+            .gallery-section { padding: 50px 20px; }
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">The Royal Events</a>
+        <i class="fa-solid fa-bars" id="menu-btn"></i>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html#home">Home</a>
+            <a href="index.html#catering">Catering</a>
+            <a href="index.html#services">Services</a>
+            <a href="gallery.html" class="active">Gallery</a> 
+            <a href="#contact">Contact</a>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <h1>Our Beautiful Memories</h1>
+        <p>A glimpse of the magical moments we've created.</p>
+    </section>
+
+    <section class="gallery-section">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="wedding">Weddings</button>
+            <button class="filter-btn" data-filter="birthday">Birthdays</button>
+            <button class="filter-btn" data-filter="video">Videos</button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid">
+            <div class="gallery-item wedding">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop" alt="Wedding 1">
+            </div>
+            <div class="gallery-item birthday">
+                <img src="https://images.pexels.com/photos/30682922/pexels-photo-30682922.jpeg?cs=srgb&dl=pexels-jonathan-valdes-286676880-30682922.jpg&fm=jpg" alt="Birthday 1">
+            </div>
+            <div class="gallery-item wedding">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop" alt="Wedding 2">
+            </div>
+            <div class="gallery-item video">
+                <video controls poster="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="gallery-item birthday">
+                <img src="https://images.unsplash.com/photo-1530103862676-de8892bc952f?q=80&w=800&auto=format&fit=crop" alt="Birthday 2">
+            </div>
+            <div class="gallery-item video">
+                <video controls poster="https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=800&auto=format&fit=crop">
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-content">
+            <h2 class="footer-logo">The Royal Events Planner</h2>
+            <div class="footer-info"><i class="fa-solid fa-user-tie"></i><span><strong>Proprietor:</strong> Manoj Sahani</span></div>
+            <div class="footer-info"><i class="fa-solid fa-location-dot"></i><span>Debi Bari, Nuta Para, Cooch Behar, PIN - 736101</span></div>
+            <div class="footer-info"><i class="fa-solid fa-phone"></i><span>+91 7827727703</span></div>
+        </div>
+        <div class="copyright">&copy; 2026 The Royal Events Planner. All Rights Reserved.</div>
+    </footer>
+
+    <a href="https://wa.me/917827727703" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')){
+                menuBtn.classList.remove('fa-bars');
+                menuBtn.classList.add('fa-xmark');
+            } else {
+                menuBtn.classList.remove('fa-xmark');
+                menuBtn.classList.add('fa-bars');
+            }
+        });
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(button => button.classList.remove('active'));
+                btn.classList.add('active');
+                const filterValue = btn.getAttribute('data-filter');
+
+                galleryItems.forEach(item => {
+                    if (filterValue === 'all' || item.classList.contains(filterValue)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
