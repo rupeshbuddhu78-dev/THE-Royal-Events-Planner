@@ -30,8 +30,6 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
         /* --- NAVBAR --- */
         header {
             background-color: rgba(26, 26, 46, 0.98); padding: 15px 50px; position: fixed;
@@ -61,12 +59,8 @@
 
         /* --- REVIEWS LAYOUT --- */
         .reviews-container {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 40px;
-            padding: 60px 5%;
-            max-width: 1300px;
-            margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 2fr; gap: 40px; padding: 60px 5%;
+            max-width: 1300px; margin: 0 auto;
         }
 
         /* Write Review Form Area */
@@ -92,11 +86,35 @@
         .star-rating-input i { transition: color 0.2s; }
         .star-rating-input i.active, .star-rating-input i.hover { color: #ffc107; }
 
+        /* File Upload Multi Preview */
+        .file-upload-wrapper {
+            position: relative; border: 2px dashed #ccc; border-radius: 8px; padding: 20px; text-align: center;
+            background: #fafafa; cursor: pointer; transition: 0.3s;
+        }
+        .file-upload-wrapper:hover { border-color: var(--primary-color); background: #fffdf5; }
+        .file-upload-wrapper input[type="file"] {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;
+        }
+        .file-upload-wrapper i { font-size: 30px; color: var(--primary-color); margin-bottom: 10px; }
+        .file-upload-wrapper p { font-size: 0.9rem; color: #666; margin: 0; }
+        .file-upload-wrapper span { font-size: 0.75rem; color: #999; }
+
+        .media-preview-box {
+            display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;
+        }
+        .preview-item {
+            width: 60px; height: 60px; border-radius: 6px; object-fit: cover; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
         .btn-submit {
             width: 100%; background: var(--secondary-color); color: var(--primary-color); border: none;
             padding: 15px; font-size: 1.1rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.3s;
         }
         .btn-submit:hover { background: var(--primary-color); color: #fff; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        
+        .loader { display: none; text-align: center; margin-top: 10px; color: var(--primary-color); font-weight: 600; }
+        .loader i { animation: spin 1s linear infinite; margin-right: 5px; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
         #review-success {
             display: none; background: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px;
@@ -118,16 +136,52 @@
         
         .review-stars { color: #ffc107; font-size: 14px; margin-top: 5px; }
         .review-date { font-size: 0.85rem; color: #aaa; font-weight: 500; }
-        
         .review-text { font-size: 1rem; color: #555; font-style: italic; line-height: 1.8; }
+
+        /* Media Grid inside Review Card */
+        .review-media-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .review-media-grid img, .review-media-grid video {
+            width: 100%; height: 180px; object-fit: cover; border-radius: 8px; background: #000;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .review-media-grid img {
+            cursor: pointer; /* Tells user image is clickable */
+            transition: transform 0.2s;
+        }
+        .review-media-grid img:hover {
+            transform: scale(1.03);
+        }
+
+        /* --- LIGHTBOX (IMAGE ZOOM POPUP) --- */
+        .lightbox-modal {
+            display: none; position: fixed; z-index: 2000; padding-top: 50px;
+            left: 0; top: 0; width: 100%; height: 100%; overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center; align-items: center; flex-direction: column;
+        }
+        .lightbox-modal.active { display: flex; }
+        .lightbox-content {
+            max-width: 90%; max-height: 80vh; border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.5); object-fit: contain;
+            animation: zoomIn 0.3s ease;
+        }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .lightbox-close {
+            position: absolute; top: 20px; right: 30px; color: #fff;
+            font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .lightbox-close:hover { color: var(--primary-color); }
 
         /* --- FOOTER --- */
         footer {
-            background-color: var(--secondary-color);
-            color: var(--text-light);
-            padding: 60px 10% 20px;
-            text-align: center;
-            margin-top: 40px;
+            background-color: var(--secondary-color); color: var(--text-light);
+            padding: 60px 10% 20px; text-align: center; margin-top: 40px;
         }
         .footer-content { display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .footer-logo { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 15px; font-family: 'Playfair Display', serif;}
@@ -146,7 +200,7 @@
 
         /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
-            .reviews-container { grid-template-columns: 1fr; } /* Stack on tablets */
+            .reviews-container { grid-template-columns: 1fr; }
             .write-review-box { position: static; margin-bottom: 40px; }
         }
 
@@ -163,6 +217,12 @@
             .review-card { padding: 20px; }
             .footer-info { flex-direction: column; text-align: center; gap: 5px; }
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 28px; }
+            
+            .review-media-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+            .review-media-grid img, .review-media-grid video { height: 120px; }
+            
+            .lightbox-content { max-width: 95%; }
+            .lightbox-close { top: 10px; right: 15px; }
         }
     </style>
 </head>
@@ -230,7 +290,19 @@
                     <textarea id="revComment" rows="4" placeholder="How was the decoration, food, and management?" required></textarea>
                 </div>
 
-                <button type="submit" class="btn-submit">Submit Review</button>
+                <div class="input-group">
+                    <label>Share Photos/Videos (Max 10)</label>
+                    <div class="file-upload-wrapper">
+                        <i class="fa-solid fa-images"></i>
+                        <p>Tap to upload images or videos</p>
+                        <span>Multiple selection allowed</span>
+                        <input type="file" id="revMedia" accept="image/*, video/*" multiple>
+                    </div>
+                    <div class="media-preview-box" id="mediaPreviewBox"></div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">Post Review</button>
+                <div class="loader" id="submitLoader"><i class="fa-solid fa-spinner"></i> Uploading to server...</div>
                 <div id="review-success"><i class="fa-solid fa-circle-check"></i> Thank you! Your review has been posted.</div>
             </form>
         </div>
@@ -249,6 +321,10 @@
                     <span class="review-date">12 Mar 2026</span>
                 </div>
                 <p class="review-text">"The Royal Events managed my sister's wedding perfectly. From the flower decoration to the premium catering, everything was exactly what we asked for. The team is very polite and professional. Highly recommended in Cooch Behar!"</p>
+                <div class="review-media-grid">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=400&auto=format&fit=crop" alt="Wedding">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=400&auto=format&fit=crop" alt="Decoration">
+                </div>
             </div>
 
             <div class="review-card reveal">
@@ -263,31 +339,29 @@
                     </div>
                     <span class="review-date">05 Feb 2026</span>
                 </div>
-                <p class="review-text">"Booked them for my son's 1st birthday. The jungle theme decor was mind-blowing! All the kids loved it. Manoj ji took away all our tension. The food was also very tasty and hygienic."</p>
+                <p class="review-text">"Booked them for my son's 1st birthday. The jungle theme decor was mind-blowing! All the kids loved it. Manoj ji took away all our tension. The food was also very tasty. Sharing a small clip!"</p>
+                <div class="review-media-grid">
+                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=400&auto=format&fit=crop" alt="Birthday Decor">
+                </div>
             </div>
         </div>
 
     </section>
 
+    <div id="imageLightbox" class="lightbox-modal">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" src="">
+    </div>
+
     <footer>
         <div class="footer-content">
             <h2 class="footer-logo">The Royal Events Planner</h2>
-            <div class="footer-info">
-                <i class="fa-solid fa-user-tie"></i>
-                <span><strong>Proprietor:</strong> Manoj Sahani</span>
-            </div>
-            <div class="footer-info">
-                <i class="fa-solid fa-location-dot"></i>
-                <span>Debi Bari, Nuta Para, Cooch Behar, PIN - 736101</span>
-            </div>
-            <div class="footer-info">
-                <i class="fa-solid fa-phone"></i>
-                <span>+91 7827727703</span> | <span>+91 8637344583</span>
-            </div>
+            <div class="footer-info"><i class="fa-solid fa-user-tie"></i><span><strong>Proprietor:</strong> Manoj Sahani</span></div>
+            <div class="footer-info"><i class="fa-solid fa-location-dot"></i><span>Debi Bari, Nuta Para, Cooch Behar, PIN - 736101</span></div>
+            <div class="footer-info"><i class="fa-solid fa-phone"></i><span>+91 7827727703</span> | <span>+91 8637344583</span></div>
         </div>
-        <div class="copyright">
-            &copy; 2026 The Royal Events Planner. All Rights Reserved.
-        </div>
+        <div class="copyright">&copy; 2026 The Royal Events Planner. All Rights Reserved.</div>
     </footer>
 
     <a href="https://wa.me/917827727703" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
@@ -298,97 +372,113 @@
         // --- MOBILE MENU TOGGLE ---
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
-        const menuIcon = menuBtn;
-
+        
         menuBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            if(navLinks.classList.contains('active')){
-                menuIcon.classList.remove('fa-bars');
-                menuIcon.classList.add('fa-xmark');
-            } else {
-                menuIcon.classList.remove('fa-xmark');
-                menuIcon.classList.add('fa-bars');
-            }
+            menuBtn.classList.toggle('fa-bars');
+            menuBtn.classList.toggle('fa-xmark');
         });
 
-        // Close menu when clicking outside
-        document.addEventListener('click', (event) => {
-            const isClickInsideMenu = navLinks.contains(event.target);
-            const isClickOnButton = menuBtn.contains(event.target);
-
-            if (!isClickInsideMenu && !isClickOnButton && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                menuIcon.classList.remove('fa-xmark');
-                menuIcon.classList.add('fa-bars');
-            }
-        });
-
-        // --- INTERACTIVE STAR RATING LOGIC ---
+        // --- STAR RATING ---
         const stars = document.querySelectorAll('#starRating i');
         const ratingInput = document.getElementById('revRating');
 
         stars.forEach(star => {
-            // Hover effect
             star.addEventListener('mouseover', function() {
                 const val = this.getAttribute('data-val');
-                stars.forEach(s => {
-                    if(s.getAttribute('data-val') <= val) s.classList.add('hover');
-                    else s.classList.remove('hover');
-                });
+                stars.forEach(s => s.classList.toggle('hover', s.getAttribute('data-val') <= val));
             });
-
-            // Remove hover effect
             star.addEventListener('mouseout', function() {
                 stars.forEach(s => s.classList.remove('hover'));
             });
-
-            // Click to set rating
             star.addEventListener('click', function() {
                 const val = this.getAttribute('data-val');
                 ratingInput.value = val;
-                stars.forEach(s => {
-                    if(s.getAttribute('data-val') <= val) s.classList.add('active');
-                    else s.classList.remove('active');
-                });
+                stars.forEach(s => s.classList.toggle('active', s.getAttribute('data-val') <= val));
             });
         });
 
-        // --- REVIEW SUBMISSION LOGIC ---
+        // --- MULTIPLE MEDIA PREVIEW (Max 10) ---
+        let selectedFilesArray = []; 
+
+        document.getElementById('revMedia').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            const previewBox = document.getElementById('mediaPreviewBox');
+            
+            if(files.length > 10) {
+                alert("Aap ek baar mein maximum 10 photos ya videos hi upload kar sakte hain.");
+                this.value = ""; 
+                previewBox.innerHTML = '';
+                selectedFilesArray = [];
+                return;
+            }
+
+            previewBox.innerHTML = '';
+            selectedFilesArray = [];
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const dataUrl = event.target.result;
+                    const type = file.type.startsWith('video/') ? 'video' : 'image';
+                    
+                    selectedFilesArray.push({ url: dataUrl, type: type });
+
+                    if(type === 'video') {
+                        previewBox.innerHTML += `<video src="${dataUrl}" class="preview-item"></video>`;
+                    } else {
+                        previewBox.innerHTML += `<img src="${dataUrl}" class="preview-item" alt="Preview">`;
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // --- REVIEW SUBMISSION ---
         const reviewForm = document.getElementById('reviewForm');
         const reviewsList = document.getElementById('reviewsList');
 
-        // Function to create star HTML string
         function getStarsHTML(rating) {
             let html = '';
             for(let i=1; i<=5; i++) {
-                if(i <= rating) html += '<i class="fa-solid fa-star"></i>';
-                else html += '<i class="fa-regular fa-star" style="color:#ddd"></i>';
+                html += (i <= rating) ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star" style="color:#ddd"></i>';
             }
             return html;
         }
 
-        // Function to render a single review card
         function createReviewCard(review) {
             const div = document.createElement('div');
-            div.className = 'review-card reveal active'; // 'active' so it shows immediately
+            div.className = 'review-card reveal active'; 
+            
+            let mediaGridHtml = '';
+            if(review.media && review.media.length > 0) {
+                mediaGridHtml = '<div class="review-media-grid">';
+                review.media.forEach(m => {
+                    if(m.type === 'video') {
+                        mediaGridHtml += `<video src="${m.url}" controls></video>`;
+                    } else {
+                        mediaGridHtml += `<img src="${m.url}" alt="Review Upload">`;
+                    }
+                });
+                mediaGridHtml += '</div>';
+            }
+
             div.innerHTML = `
                 <i class="fa-solid fa-quote-right"></i>
                 <div class="review-header">
                     <div class="reviewer-info">
                         <h4>${review.name}</h4>
                         <span class="event-type">${review.event}</span>
-                        <div class="review-stars">
-                            ${getStarsHTML(review.rating)}
-                        </div>
+                        <div class="review-stars">${getStarsHTML(review.rating)}</div>
                     </div>
                     <span class="review-date">${review.date}</span>
                 </div>
                 <p class="review-text">"${review.comment}"</p>
+                ${mediaGridHtml}
             `;
             return div;
         }
 
-        // Load existing reviews from LocalStorage on page load
         function loadReviews() {
             const savedReviews = JSON.parse(localStorage.getItem('royal_reviews')) || [];
             savedReviews.forEach(rev => {
@@ -396,71 +486,86 @@
             });
         }
 
-        // Handle form submit
-        reviewForm.addEventListener('submit', function(e) {
+        reviewForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const name = document.getElementById('revName').value;
-            const event = document.getElementById('revEvent').value;
-            const rawDate = document.getElementById('revDate').value;
             const rating = document.getElementById('revRating').value;
-            const comment = document.getElementById('revComment').value;
+            if(rating == 0) { alert("Please select a star rating!"); return; }
 
-            if(rating == 0) {
-                alert("Please select a star rating!");
-                return;
-            }
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('submitLoader').style.display = 'block';
 
-            // Format the date nicely (e.g., from 2026-04-15 to 15 Apr 2026)
-            const dateObj = new Date(rawDate);
-            const formattedDate = dateObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            const rawDate = document.getElementById('revDate').value;
+            const formattedDate = new Date(rawDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
-            // Create Review Object
             const newReview = {
-                name: name,
-                event: event,
+                name: document.getElementById('revName').value,
+                event: document.getElementById('revEvent').value,
                 rating: parseInt(rating),
-                comment: comment,
-                date: formattedDate
+                comment: document.getElementById('revComment').value,
+                date: formattedDate,
+                media: selectedFilesArray 
             };
 
-            // Save to LocalStorage
-            const savedReviews = JSON.parse(localStorage.getItem('royal_reviews')) || [];
-            savedReviews.push(newReview);
-            localStorage.setItem('royal_reviews', JSON.stringify(savedReviews));
+            setTimeout(() => {
+                reviewsList.prepend(createReviewCard(newReview));
 
-            // Add to UI immediately (at the top)
-            reviewsList.prepend(createReviewCard(newReview));
+                const savedReviews = JSON.parse(localStorage.getItem('royal_reviews')) || [];
+                savedReviews.push(newReview);
+                localStorage.setItem('royal_reviews', JSON.stringify(savedReviews));
 
-            // Reset Form and show success message
-            reviewForm.reset();
-            stars.forEach(s => s.classList.remove('active'));
-            ratingInput.value = 0;
-            
-            const successMsg = document.getElementById('review-success');
-            successMsg.style.display = 'block';
-            setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+                reviewForm.reset();
+                stars.forEach(s => s.classList.remove('active'));
+                document.getElementById('revRating').value = 0;
+                document.getElementById('mediaPreviewBox').innerHTML = '';
+                selectedFilesArray = [];
+
+                document.getElementById('submitLoader').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'block';
+                
+                const successMsg = document.getElementById('review-success');
+                successMsg.style.display = 'block';
+                setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+            }, 1000);
         });
 
-        // Initialize page
-        window.onload = () => {
-            loadReviews();
-            reveal(); // Trigger scroll animations
-        };
+        // --- IMAGE LIGHTBOX (ZOOM) LOGIC ---
+        const lightbox = document.getElementById('imageLightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.querySelector('.lightbox-close');
 
-        // Scroll Reveal Animation 
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                }
+        // Event delegation to catch clicks on any image inside a review grid
+        document.addEventListener('click', function(e) {
+            if(e.target.tagName === 'IMG' && e.target.closest('.review-media-grid')) {
+                lightbox.classList.add('active');
+                // Use a higher quality version if available, otherwise use src
+                lightboxImg.src = e.target.src.replace('w=400', 'w=1200'); 
             }
+        });
+
+        // Close logic
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            setTimeout(() => lightboxImg.src = "", 300); // clear src after animation
         }
+        
+        closeBtn.addEventListener('click', closeLightbox);
+        
+        lightbox.addEventListener('click', function(e) {
+            // Close if user clicks on the background (not the image itself)
+            if(e.target !== lightboxImg) {
+                closeLightbox();
+            }
+        });
+
+        // Load Animations
+        window.onload = () => { loadReviews(); reveal(); };
         window.addEventListener("scroll", reveal);
+        function reveal() {
+            document.querySelectorAll(".reveal").forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 50) el.classList.add("active");
+            });
+        }
     </script>
 </body>
 </html>
