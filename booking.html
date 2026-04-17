@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Event | The Royal Events Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary-color: #d4af37; /* Royal Gold */
+            --secondary-color: #1a1a2e; /* Deep Navy Blue */
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #f4f6f9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--secondary-color); }
+
+        /* --- ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- NAVBAR --- */
+        header {
+            background-color: rgba(26, 26, 46, 0.98); padding: 15px 50px; position: fixed;
+            width: 100%; top: 0; z-index: 1000; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .logo { color: var(--primary-color); font-size: 26px; font-weight: 800; text-decoration: none; font-family: 'Playfair Display', serif; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.3s; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--primary-color); transition: width 0.3s; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-color); }
+        #menu-btn { display: none; color: var(--primary-color); font-size: 28px; cursor: pointer; }
+
+        /* --- PAGE BANNER --- */
+        .page-banner {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(26, 26, 46, 0.85)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: var(--text-light); margin-top: 60px;
+        }
+        .page-banner h1 { color: var(--primary-color); font-size: 3.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .page-banner p { font-size: 1.1rem; font-weight: 300; max-width: 600px; }
+
+        /* --- BOOKING FORM SECTION --- */
+        .booking-container {
+            max-width: 900px;
+            margin: -50px auto 80px; /* Overlaps banner slightly */
+            background: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .form-section-title {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .form-section-title i { color: var(--primary-color); }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        .input-group label { font-weight: 500; font-size: 0.95rem; color: var(--text-dark); }
+        .input-group span.required { color: red; }
+        
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 14px 18px; border: 1px solid #ddd; border-radius: 10px;
+            font-family: 'Poppins', sans-serif; font-size: 0.95rem; background-color: #fcfcfc;
+            transition: all 0.3s;
+        }
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none; border-color: var(--primary-color); background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        .checkbox-group { display: flex; align-items: center; gap: 10px; margin-top: -15px; margin-bottom: 20px; font-size: 0.9rem; color: #555; }
+        
+        /* Custom Radio/Checkboxes for Services */
+        .service-toggles { display: flex; gap: 20px; margin-bottom: 25px; }
+        .toggle-item { display: flex; align-items: center; gap: 8px; font-size: 1rem; cursor: pointer; }
+        .toggle-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary-color); }
+
+        /* File Upload */
+        .file-upload-wrapper {
+            border: 2px dashed #ccc; padding: 30px; text-align: center; border-radius: 10px;
+            background: #fafafa; cursor: pointer; transition: 0.3s; margin-bottom: 30px;
+        }
+        .file-upload-wrapper:hover { border-color: var(--primary-color); background: #fffcf5; }
+        .file-upload-wrapper i { font-size: 30px; color: var(--primary-color); margin-bottom: 10px; }
+        .file-upload-wrapper input[type="file"] { display: none; }
+
+        /* Buttons */
+        .button-group { display: flex; gap: 20px; margin-top: 20px; }
+        
+        .btn-submit {
+            flex: 1; background: var(--secondary-color); color: #fff; border: none;
+            padding: 16px; font-size: 1.1rem; font-weight: 600; border-radius: 10px;
+            cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .btn-submit:hover { background: var(--primary-color); color: var(--secondary-color); box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3); }
+
+        .btn-whatsapp {
+            flex: 1; background: #25d366; color: #fff; border: none;
+            padding: 16px; font-size: 1.1rem; font-weight: 600; border-radius: 10px;
+            cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px;
+        }
+        .btn-whatsapp:hover { background: #20b858; box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3); }
+
+        /* Success Message Modal */
+        #success-message {
+            display: none; text-align: center; padding: 40px 20px; background: #e8f5e9;
+            border: 2px solid #4caf50; border-radius: 15px; margin-bottom: 30px;
+        }
+        #success-message i { font-size: 50px; color: #4caf50; margin-bottom: 15px; }
+        #success-message h3 { color: #2e7d32; font-size: 1.8rem; margin-bottom: 10px; }
+
+        /* --- FOOTER --- */
+        footer { background-color: var(--secondary-color); color: var(--text-light); padding: 50px 10% 20px; text-align: center; }
+        .footer-logo { font-size: 2rem; color: var(--primary-color); margin-bottom: 15px; font-family: 'Playfair Display', serif;}
+        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; font-size: 0.9rem; color: #aaa; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            #menu-btn { display: block; }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background-color: rgba(26, 26, 46, 0.98); flex-direction: column; justify-content: center; transition: 0.4s; }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.3rem; margin: 10px 0; }
+            
+            .page-banner h1 { font-size: 2.5rem; }
+            .booking-container { margin: -30px 15px 50px; padding: 30px 20px; }
+            .form-row { grid-template-columns: 1fr; gap: 15px; }
+            .button-group { flex-direction: column; gap: 15px; }
+            .service-toggles { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">The Royal Events</a>
+        <i class="fa-solid fa-bars" id="menu-btn"></i>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html">Gallery</a> 
+            <a href="index.html#reviews">Reviews</a>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <h1>Book Your Event</h1>
+        <p>Fill out the details below and let us plan the perfect celebration for you.</p>
+    </section>
+
+    <section class="booking-container reveal">
+        
+        <div id="success-message">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3>Booking Request Sent!</h3>
+            <p>Thank you for choosing The Royal Events Planner. Our team will contact you shortly to discuss your grand celebration.</p>
+            <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; border-radius: 8px; border:none; background: var(--primary-color); color: #fff; cursor:pointer;">Book Another Event</button>
+        </div>
+
+        <form id="royalBookingForm">
+            <h3 class="form-section-title"><i class="fa-solid fa-user"></i> 1. Basic Information</h3>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Full Name <span class="required">*</span></label>
+                    <input type="text" id="clientName" placeholder="Enter your name" required>
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="clientEmail" placeholder="you@example.com">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="clientPhone" placeholder="10-digit mobile number" required>
+                </div>
+                <div class="input-group">
+                    <label>WhatsApp Number <span class="required">*</span></label>
+                    <input type="tel" id="clientWhatsapp" placeholder="WhatsApp number" required>
+                </div>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="sameAsPhone" onchange="copyPhone()"> 
+                <label for="sameAsPhone">Same as Phone Number</label>
+            </div>
+
+            <h3 class="form-section-title"><i class="fa-solid fa-calendar-day"></i> 2. Event Details</h3>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Event Type <span class="required">*</span></label>
+                    <select id="eventType" required>
+                        <option value="" disabled selected>Select Event Type</option>
+                        <option value="Wedding">Wedding / Marriage</option>
+                        <option value="Birthday">Birthday Party</option>
+                        <option value="Rice Ceremony">Rice Ceremony (Annaprashan)</option>
+                        <option value="Corporate">Corporate Event</option>
+                        <option value="Get Together">Get Together</option>
+                        <option value="Other">Other Event</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Number of Guests <span class="required">*</span></label>
+                    <select id="guestCount" required>
+                        <option value="" disabled selected>Select approx. guests</option>
+                        <option value="Under 50">Under 50 (Small gathering)</option>
+                        <option value="50 - 150">50 - 150</option>
+                        <option value="150 - 300">150 - 300</option>
+                        <option value="300 - 500">300 - 500</option>
+                        <option value="500+">500+ (Grand Event)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Event Date <span class="required">*</span></label>
+                    <input type="date" id="eventDate" required>
+                </div>
+                <div class="input-group">
+                    <label>Event Time <span class="required">*</span></label>
+                    <input type="time" id="eventTime" required>
+                </div>
+            </div>
+            <div class="input-group" style="margin-bottom: 25px;">
+                <label>Event Location / Venue Address <span class="required">*</span></label>
+                <textarea id="eventLocation" rows="2" placeholder="Full address with city..." required></textarea>
+            </div>
+
+            <h3 class="form-section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> 3. Event Requirements</h3>
+            <div class="form-row">
+                <div class="input-group">
+                    <label>Estimated Budget <span class="required">*</span></label>
+                    <select id="budget" required>
+                        <option value="" disabled selected>Select your budget</option>
+                        <option value="Under ₹20,000">Under ₹20,000</option>
+                        <option value="₹20,000 - ₹50,000">₹20,000 - ₹50,000</option>
+                        <option value="₹50,000 - ₹1 Lakh">₹50,000 - ₹1 Lakh</option>
+                        <option value="₹1 Lakh - ₹3 Lakhs">₹1 Lakh - ₹3 Lakhs</option>
+                        <option value="₹3 Lakhs+">₹3 Lakhs+ (Royal Setup)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Decoration Type</label>
+                    <select id="decorType">
+                        <option value="Standard">Standard / Normal</option>
+                        <option value="Simple">Simple & Elegant</option>
+                        <option value="Premium">Premium</option>
+                        <option value="Royal Luxury">Royal Luxury Theme</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="input-group" style="margin-bottom: 15px;">
+                <label>Do you need these Extra Services?</label>
+            </div>
+            <div class="service-toggles">
+                <label class="toggle-item"><input type="checkbox" id="needCatering" value="Yes"> Premium Catering</label>
+                <label class="toggle-item"><input type="checkbox" id="needPhoto" value="Yes"> Photography/Video</label>
+                <label class="toggle-item"><input type="checkbox" id="needBand" value="Yes"> Band/DJ setup</label>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 25px;">
+                <label>Theme Preference / Extra Message</label>
+                <textarea id="extraMessage" rows="3" placeholder="Example: Balloon + Cartoon theme chahiye, ya Stage bada chahiye..."></textarea>
+            </div>
+
+            <h3 class="form-section-title"><i class="fa-solid fa-image"></i> 4. Reference Image (Optional)</h3>
+            <label for="referenceImage">
+                <div class="file-upload-wrapper">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p>Click here to upload a reference photo or design idea.</p>
+                    <span id="fileName" style="color: var(--primary-color); font-weight: bold; display: block; margin-top: 10px;"></span>
+                </div>
+            </label>
+            <input type="file" id="referenceImage" accept="image/*" onchange="showFileName()">
+
+            <div class="button-group">
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Booking to Admin
+                </button>
+                <button type="button" class="btn-whatsapp" onclick="sendToWhatsApp()">
+                    <i class="fa-brands fa-whatsapp"></i> Direct Book via WhatsApp
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <footer>
+        <h2 class="footer-logo">The Royal Events Planner</h2>
+        <div class="copyright">&copy; 2026 The Royal Events Planner. All Rights Reserved.</div>
+    </footer>
+
+    <script>
+        // Menu Toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+
+        // Copy Phone to WhatsApp field
+        function copyPhone() {
+            const phone = document.getElementById('clientPhone').value;
+            const waInput = document.getElementById('clientWhatsapp');
+            if(document.getElementById('sameAsPhone').checked) {
+                waInput.value = phone;
+            } else {
+                waInput.value = '';
+            }
+        }
+
+        // Show File Name
+        function showFileName() {
+            const fileInput = document.getElementById('referenceImage');
+            const fileNameDisplay = document.getElementById('fileName');
+            if(fileInput.files.length > 0) {
+                fileNameDisplay.textContent = "Selected file: " + fileInput.files[0].name;
+            }
+        }
+
+        // --- ADMIN PANEL CONNECTION LOGIC ---
+        document.getElementById('royalBookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // 1. Get all form values
+            const bookingData = {
+                id: "BKG" + Math.floor(Math.random() * 10000), // Random ID generate
+                dateSubmit: new Date().toLocaleDateString(),
+                name: document.getElementById('clientName').value,
+                phone: document.getElementById('clientPhone').value,
+                whatsapp: document.getElementById('clientWhatsapp').value,
+                email: document.getElementById('clientEmail').value,
+                type: document.getElementById('eventType').value,
+                date: document.getElementById('eventDate').value,
+                time: document.getElementById('eventTime').value,
+                location: document.getElementById('eventLocation').value,
+                guests: document.getElementById('guestCount').value,
+                budget: document.getElementById('budget').value,
+                decor: document.getElementById('decorType').value,
+                catering: document.getElementById('needCatering').checked ? "Yes" : "No",
+                photography: document.getElementById('needPhoto').checked ? "Yes" : "No",
+                band: document.getElementById('needBand').checked ? "Yes" : "No",
+                message: document.getElementById('extraMessage').value
+            };
+
+            // 2. LocalStorage mein save karna (Admin panel yahi se data uthayega)
+            let existingBookings = JSON.parse(localStorage.getItem('royal_bookings')) || [];
+            existingBookings.push(bookingData);
+            localStorage.setItem('royal_bookings', JSON.stringify(existingBookings));
+
+            // 3. UI Update (Success Message dikhana)
+            document.getElementById('royalBookingForm').style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
+            window.scrollTo(0, document.querySelector('.booking-container').offsetTop - 100);
+        });
+
+        // --- WHATSAPP REDIRECT LOGIC ---
+        function sendToWhatsApp() {
+            // Check required fields first
+            const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            const event = document.getElementById('eventType').value;
+            
+            if(!name || !phone || !event) {
+                alert("Please fill out your Name, Phone, and Event Type before sending WhatsApp message.");
+                return;
+            }
+
+            const waNumber = "917827727703"; // Fufa ji ka number
+            
+            // Gather extra details
+            const date = document.getElementById('eventDate').value || "Not decided";
+            const guests = document.getElementById('guestCount').value || "Not decided";
+            const budget = document.getElementById('budget').value || "Not decided";
+            const msg = document.getElementById('extraMessage').value || "None";
+            
+            const catering = document.getElementById('needCatering').checked ? "✅ Yes" : "❌ No";
+            const photo = document.getElementById('needPhoto').checked ? "✅ Yes" : "❌ No";
+
+            // Format message
+            let waText = `*👑 NEW BOOKING ENQUIRY 👑*%0A%0A`;
+            waText += `*Name:* ${name}%0A`;
+            waText += `*Phone:* ${phone}%0A`;
+            waText += `*Event Type:* ${event}%0A`;
+            waText += `*Date:* ${date}%0A`;
+            waText += `*Guests:* ${guests}%0A`;
+            waText += `*Budget:* ${budget}%0A`;
+            waText += `*Catering:* ${catering}%0A`;
+            waText += `*Photography:* ${photo}%0A%0A`;
+            waText += `*Message:* ${msg}`;
+
+            // Open WhatsApp
+            const waURL = `https://wa.me/${waNumber}?text=${waText}`;
+            window.open(waURL, '_blank');
+        }
+
+        // Animation load
+        setTimeout(() => { document.querySelector('.booking-container').classList.add('active'); }, 200);
+    </script>
+</body>
+</html>
