@@ -3,7 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - The Royal Events</title>
+    
+    <title>Event Gallery & Photos | Best Decoration in Cooch Behar</title>
+
+    <script>
+      if (window.location.pathname.endsWith("gallery.html")) {
+        window.location.replace("/gallery");
+      }
+    </script>
+
+    <meta name="description" content="View the stunning event gallery of The Royal Events Planner. Explore our premium wedding decorations, birthday party setups, and catering memories in Cooch Behar.">
+    <meta name="keywords" content="Event gallery Cooch Behar, Wedding decoration photos Cooch Behar, Birthday party images, Event planner portfolio, Manoj Sahani event photos, The Royal Events pictures, Marriage stage decoration images">
+    <meta name="author" content="Manoj Sahani">
+    <link rel="canonical" href="https://www.theroyaleventsplanner.in/gallery" />
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.theroyaleventsplanner.in/gallery">
+    <meta property="og:title" content="Our Beautiful Event Memories | The Royal Events Planner">
+    <meta property="og:description" content="Take a look at the magical weddings and grand events we've organized in Cooch Behar.">
+    <meta property="og:image" content="https://www.theroyaleventsplanner.in/logo.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -182,21 +204,21 @@
         }
         .whatsapp-float:hover { transform: scale(1.1); background-color: #20b858; }
 
-        /* --- RESPONSIVE DESIGN (FIXED TO MATCH OTHER PAGES) --- */
+        /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
             header { padding: 15px 20px; }
             #menu-btn { display: block; }
             .nav-links { 
                 position: fixed; 
                 top: 0; 
-                right: -100%; /* Matches other pages (Slides from right) */
+                right: -100%; 
                 width: 70%; 
                 height: 100vh; 
                 background-color: rgba(26, 26, 46, 0.98); 
                 flex-direction: column; 
-                justify-content: center; /* Centers menu items vertically */
-                transition: right 0.4s ease; /* Matches animation style */
-                box-shadow: -5px 0 15px rgba(0,0,0,0.5); /* Added shadow for depth */
+                justify-content: center; 
+                transition: right 0.4s ease; 
+                box-shadow: -5px 0 15px rgba(0,0,0,0.5); 
             }
             .nav-links.active { right: 0; }
             .nav-links a { font-size: 1.3rem; margin: 10px 0; }
@@ -210,15 +232,15 @@
 <body>
 
     <header>
-        <a href="index.html" class="logo">The Royal Events</a>
+        <a href="/" class="logo">The Royal Events</a>
         <i class="fa-solid fa-bars" id="menu-btn"></i>
         <div class="nav-links" id="nav-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="services.html">Services</a>
-            <a href="gallery.html" class="active">Gallery</a> 
-            <a href="review.html">Reviews</a>
-            <a href="booking.html" class="nav-btn">Book Now</a>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/services">Services</a>
+            <a href="/gallery" class="active">Gallery</a> 
+            <a href="/review">Reviews</a>
+            <a href="/booking" class="nav-btn">Book Now</a>
         </div>
     </header>
 
@@ -253,12 +275,12 @@
     <a href="https://wa.me/918927727703" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
 
     <script>
-        // --- MOBILE MENU TOGGLE FIX (Same as other pages) ---
+        // --- MOBILE MENU TOGGLE FIX ---
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
         
         menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents click from bubbling to document immediately
+            e.stopPropagation(); 
             navLinks.classList.toggle('active');
             menuBtn.classList.toggle('fa-bars');
             menuBtn.classList.toggle('fa-xmark');
@@ -266,15 +288,13 @@
 
         // Close menu when clicking outside
         document.addEventListener('click', (event) => {
-            if (navLinks.classList.contains('active')) {
-                const isClickInsideMenu = navLinks.contains(event.target);
-                const isClickOnButton = menuBtn.contains(event.target);
+            const isClickInsideMenu = navLinks.contains(event.target);
+            const isClickOnButton = menuBtn.contains(event.target);
 
-                if (!isClickInsideMenu && !isClickOnButton) {
-                    navLinks.classList.remove('active');
-                    menuBtn.classList.remove('fa-xmark');
-                    menuBtn.classList.add('fa-bars');
-                }
+            if (!isClickInsideMenu && !isClickOnButton && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                menuBtn.classList.remove('fa-xmark');
+                menuBtn.classList.add('fa-bars');
             }
         });
 
@@ -283,29 +303,27 @@
         const galleryGrid = document.getElementById('gallery-grid');
         const filterBtns = document.querySelectorAll('.filter-btn');
 
-        // Function to load media from Database
         async function loadGallery() {
             try {
                 const response = await fetch(`${SERVER_URL}/media`);
                 const data = await response.json();
 
-                galleryGrid.innerHTML = ''; // Clear loading message
+                galleryGrid.innerHTML = ''; 
 
                 if (data.items && data.items.length > 0) {
                     data.items.forEach(item => {
-                        // Check if URL belongs to a video
                         const isVideo = item.url.match(/\.(mp4|mov|webm)$/i);
                         
                         let mediaTag = '';
                         if (isVideo || item.category === 'video') {
                             mediaTag = `<video controls src="${item.url}"></video>`;
                         } else {
-                            mediaTag = `<img src="${item.url}" alt="${item.category} event">`;
+                            // 🟢 7. DYNAMIC IMAGE ALT TAG HACK (For SEO)
+                            mediaTag = `<img src="${item.url}" alt="Premium ${item.category} decoration in Cooch Behar by The Royal Events Planner">`;
                         }
 
-                        // Create the gallery item div
                         const div = document.createElement('div');
-                        div.className = `gallery-item ${item.category}`; // Category (wedding/birthday/video) class add ki
+                        div.className = `gallery-item ${item.category}`; 
                         div.innerHTML = mediaTag;
                         
                         galleryGrid.appendChild(div);
@@ -314,7 +332,6 @@
                     galleryGrid.innerHTML = '<div class="loading-text">Gallery is currently empty. Photos uploaded by Admin will appear here.</div>';
                 }
 
-                // Apply active filter (In case 'All' is selected by default)
                 applyFilters();
 
             } catch (error) {
@@ -323,7 +340,6 @@
             }
         }
 
-        // Function to filter photos/videos based on category
         function applyFilters() {
             const activeBtn = document.querySelector('.filter-btn.active');
             const filterValue = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
@@ -338,16 +354,14 @@
             });
         }
 
-        // Button click event logic
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 filterBtns.forEach(button => button.classList.remove('active'));
                 btn.classList.add('active');
-                applyFilters(); // Filter function run karo
+                applyFilters(); 
             });
         });
 
-        // Load the gallery as soon as the page opens
         loadGallery();
     </script>
 </body>
