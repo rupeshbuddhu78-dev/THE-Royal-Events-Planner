@@ -110,7 +110,8 @@
             width: 100%; background: var(--secondary-color); color: var(--primary-color); border: none;
             padding: 15px; font-size: 1.1rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.3s;
         }
-        .btn-submit:hover { background: var(--primary-color); color: #fff; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        .btn-submit:hover:not(:disabled) { background: var(--primary-color); color: #fff; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        .btn-submit:disabled { background: #999; cursor: not-allowed; }
         
         .loader { display: none; text-align: center; margin-top: 10px; color: var(--primary-color); font-weight: 600; }
         .loader i { animation: spin 1s linear infinite; margin-right: 5px; }
@@ -150,12 +151,14 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
         .review-media-grid img {
-            cursor: pointer; /* Tells user image is clickable */
+            cursor: pointer; 
             transition: transform 0.2s;
         }
         .review-media-grid img:hover {
             transform: scale(1.03);
         }
+
+        .db-loader { text-align: center; padding: 40px; color: var(--primary-color); font-size: 1.2rem; }
 
         /* --- LIGHTBOX (IMAGE ZOOM POPUP) --- */
         .lightbox-modal {
@@ -308,43 +311,7 @@
         </div>
 
         <div class="display-reviews" id="reviewsList">
-            <div class="review-card reveal">
-                <i class="fa-solid fa-quote-right"></i>
-                <div class="review-header">
-                    <div class="reviewer-info">
-                        <h4>Rahul Sharma</h4>
-                        <span class="event-type">Wedding Ceremony</span>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                    <span class="review-date">12 Mar 2026</span>
-                </div>
-                <p class="review-text">"The Royal Events managed my sister's wedding perfectly. From the flower decoration to the premium catering, everything was exactly what we asked for. The team is very polite and professional. Highly recommended in Cooch Behar!"</p>
-                <div class="review-media-grid">
-                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=400&auto=format&fit=crop" alt="Wedding">
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=400&auto=format&fit=crop" alt="Decoration">
-                </div>
-            </div>
-
-            <div class="review-card reveal">
-                <i class="fa-solid fa-quote-right"></i>
-                <div class="review-header">
-                    <div class="reviewer-info">
-                        <h4>Priya Das</h4>
-                        <span class="event-type">Birthday Party</span>
-                        <div class="review-stars">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                    <span class="review-date">05 Feb 2026</span>
-                </div>
-                <p class="review-text">"Booked them for my son's 1st birthday. The jungle theme decor was mind-blowing! All the kids loved it. Manoj ji took away all our tension. The food was also very tasty. Sharing a small clip!"</p>
-                <div class="review-media-grid">
-                    <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video>
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=400&auto=format&fit=crop" alt="Birthday Decor">
-                </div>
-            </div>
+            <div class="db-loader" id="dbLoader"><i class="fa-solid fa-spinner fa-spin"></i> Loading Reviews...</div>
         </div>
 
     </section>
@@ -369,6 +336,9 @@
     </a>
 
     <script>
+        // --- SERVER URL ---
+        const SERVER_URL = "https://the-royal-events-admin.onrender.com";
+
         // --- MOBILE MENU TOGGLE ---
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
@@ -398,9 +368,7 @@
             });
         });
 
-        // --- MULTIPLE MEDIA PREVIEW (Max 10) ---
-        let selectedFilesArray = []; 
-
+        // --- MULTIPLE MEDIA PREVIEW ---
         document.getElementById('revMedia').addEventListener('change', function(e) {
             const files = Array.from(e.target.files);
             const previewBox = document.getElementById('mediaPreviewBox');
@@ -409,12 +377,10 @@
                 alert("Aap ek baar mein maximum 10 photos ya videos hi upload kar sakte hain.");
                 this.value = ""; 
                 previewBox.innerHTML = '';
-                selectedFilesArray = [];
                 return;
             }
 
             previewBox.innerHTML = '';
-            selectedFilesArray = [];
 
             files.forEach(file => {
                 const reader = new FileReader();
@@ -422,8 +388,6 @@
                     const dataUrl = event.target.result;
                     const type = file.type.startsWith('video/') ? 'video' : 'image';
                     
-                    selectedFilesArray.push({ url: dataUrl, type: type });
-
                     if(type === 'video') {
                         previewBox.innerHTML += `<video src="${dataUrl}" class="preview-item"></video>`;
                     } else {
@@ -434,7 +398,7 @@
             });
         });
 
-        // --- REVIEW SUBMISSION ---
+        // --- REVIEW SUBMISSION (FETCH API WITH FORMDATA) ---
         const reviewForm = document.getElementById('reviewForm');
         const reviewsList = document.getElementById('reviewsList');
 
@@ -479,54 +443,91 @@
             return div;
         }
 
-        function loadReviews() {
-            const savedReviews = JSON.parse(localStorage.getItem('royal_reviews')) || [];
-            savedReviews.forEach(rev => {
-                reviewsList.prepend(createReviewCard(rev));
-            });
+        // LOAD EXISTING REVIEWS FROM BACKEND
+        async function fetchReviews() {
+            try {
+                const response = await fetch(`${SERVER_URL}/api/reviews`);
+                const result = await response.json();
+                
+                document.getElementById('dbLoader').style.display = 'none';
+
+                if(result.success && result.data.length > 0) {
+                    result.data.forEach(rev => {
+                        reviewsList.appendChild(createReviewCard(rev));
+                    });
+                } else {
+                    reviewsList.innerHTML = '<p style="text-align:center; color:#777;">No reviews yet. Be the first to share your experience!</p>';
+                }
+            } catch (err) {
+                document.getElementById('dbLoader').innerHTML = '<span style="color:red;">Failed to connect to server. Showing local data.</span>';
+            }
         }
 
+        // POST NEW REVIEW TO BACKEND
         reviewForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const rating = document.getElementById('revRating').value;
             if(rating == 0) { alert("Please select a star rating!"); return; }
 
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('submitLoader').style.display = 'block';
+            const submitBtn = document.getElementById('submitBtn');
+            const loader = document.getElementById('submitLoader');
+
+            submitBtn.style.display = 'none';
+            loader.style.display = 'block';
 
             const rawDate = document.getElementById('revDate').value;
             const formattedDate = new Date(rawDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
-            const newReview = {
-                name: document.getElementById('revName').value,
-                event: document.getElementById('revEvent').value,
-                rating: parseInt(rating),
-                comment: document.getElementById('revComment').value,
-                date: formattedDate,
-                media: selectedFilesArray 
-            };
+            // Create FormData
+            const formData = new FormData();
+            formData.append('name', document.getElementById('revName').value);
+            formData.append('event', document.getElementById('revEvent').value);
+            formData.append('rating', rating);
+            formData.append('comment', document.getElementById('revComment').value);
+            formData.append('date', formattedDate);
 
-            setTimeout(() => {
-                reviewsList.prepend(createReviewCard(newReview));
+            // Append multiple files
+            const fileInput = document.getElementById('revMedia');
+            for (let i = 0; i < fileInput.files.length; i++) {
+                formData.append('reviewMedia', fileInput.files[i]); 
+            }
 
-                const savedReviews = JSON.parse(localStorage.getItem('royal_reviews')) || [];
-                savedReviews.push(newReview);
-                localStorage.setItem('royal_reviews', JSON.stringify(savedReviews));
+            try {
+                const response = await fetch(`${SERVER_URL}/api/reviews`, {
+                    method: 'POST',
+                    body: formData
+                });
 
-                reviewForm.reset();
-                stars.forEach(s => s.classList.remove('active'));
-                document.getElementById('revRating').value = 0;
-                document.getElementById('mediaPreviewBox').innerHTML = '';
-                selectedFilesArray = [];
+                const result = await response.json();
 
-                document.getElementById('submitLoader').style.display = 'none';
-                document.getElementById('submitBtn').style.display = 'block';
-                
-                const successMsg = document.getElementById('review-success');
-                successMsg.style.display = 'block';
-                setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
-            }, 1000);
+                if(result.success) {
+                    // Remove "No reviews yet" message if it exists
+                    if (reviewsList.querySelector('p')) {
+                        reviewsList.innerHTML = '';
+                    }
+
+                    // Add new review to top of the list
+                    reviewsList.prepend(createReviewCard(result.data));
+
+                    // Reset form
+                    reviewForm.reset();
+                    stars.forEach(s => s.classList.remove('active'));
+                    document.getElementById('revRating').value = 0;
+                    document.getElementById('mediaPreviewBox').innerHTML = '';
+                    
+                    const successMsg = document.getElementById('review-success');
+                    successMsg.style.display = 'block';
+                    setTimeout(() => { successMsg.style.display = 'none'; }, 5000);
+                } else {
+                    alert("❌ Error: " + result.message);
+                }
+            } catch (err) {
+                alert("❌ Server Error: Please try again later.");
+            } finally {
+                loader.style.display = 'none';
+                submitBtn.style.display = 'block';
+            }
         });
 
         // --- IMAGE LIGHTBOX (ZOOM) LOGIC ---
@@ -534,32 +535,26 @@
         const lightboxImg = document.getElementById('lightbox-img');
         const closeBtn = document.querySelector('.lightbox-close');
 
-        // Event delegation to catch clicks on any image inside a review grid
+        // Catch clicks on images
         document.addEventListener('click', function(e) {
             if(e.target.tagName === 'IMG' && e.target.closest('.review-media-grid')) {
                 lightbox.classList.add('active');
-                // Use a higher quality version if available, otherwise use src
-                lightboxImg.src = e.target.src.replace('w=400', 'w=1200'); 
+                lightboxImg.src = e.target.src; 
             }
         });
 
-        // Close logic
         function closeLightbox() {
             lightbox.classList.remove('active');
-            setTimeout(() => lightboxImg.src = "", 300); // clear src after animation
+            setTimeout(() => lightboxImg.src = "", 300);
         }
         
         closeBtn.addEventListener('click', closeLightbox);
-        
         lightbox.addEventListener('click', function(e) {
-            // Close if user clicks on the background (not the image itself)
-            if(e.target !== lightboxImg) {
-                closeLightbox();
-            }
+            if(e.target !== lightboxImg) closeLightbox();
         });
 
-        // Load Animations
-        window.onload = () => { loadReviews(); reveal(); };
+        // Initialize Page
+        window.onload = () => { fetchReviews(); reveal(); };
         window.addEventListener("scroll", reveal);
         function reveal() {
             document.querySelectorAll(".reveal").forEach(el => {
