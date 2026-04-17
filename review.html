@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Reviews | The Royal Events Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary-color: #d4af37; /* Royal Gold */
+            --secondary-color: #1a1a2e; /* Deep Navy Blue */
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #f4f6f9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        html, body {
+            font-family: 'Poppins', sans-serif; color: var(--text-dark);
+            background-color: var(--bg-light); line-height: 1.6; overflow-x: hidden; width: 100%;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--secondary-color); }
+
+        /* --- ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- NAVBAR --- */
+        header {
+            background-color: rgba(26, 26, 46, 0.98); padding: 15px 50px; position: fixed;
+            width: 100%; top: 0; z-index: 1000; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .logo { color: var(--primary-color); font-size: 26px; font-weight: 800; text-decoration: none; font-family: 'Playfair Display', serif; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.3s; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--primary-color); transition: width 0.3s; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-color); }
+        .nav-btn { background: var(--primary-color); color: var(--secondary-color) !important; padding: 8px 20px; border-radius: 25px; font-weight: 600 !important; }
+        .nav-btn::after { display: none !important; }
+        .nav-btn:hover { background: #fff; transform: translateY(-2px); }
+        #menu-btn { display: none; color: var(--primary-color); font-size: 28px; cursor: pointer; }
+
+        /* --- PAGE BANNER --- */
+        .page-banner {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(26, 26, 46, 0.85)), url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: var(--text-light); margin-top: 60px; width: 100%;
+        }
+        .page-banner h1 { color: var(--primary-color); font-size: 3.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .page-banner p { font-size: 1.1rem; font-weight: 300; max-width: 600px; padding: 0 15px; }
+
+        /* --- REVIEWS LAYOUT --- */
+        .reviews-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            padding: 60px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Write Review Form Area */
+        .write-review-box {
+            background: #fff; padding: 35px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            position: sticky; top: 100px; height: fit-content;
+        }
+        .write-review-box h3 { font-size: 1.8rem; margin-bottom: 20px; color: var(--secondary-color); }
+        .write-review-box h3 span { color: var(--primary-color); }
+        
+        .input-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 8px; }
+        .input-group label { font-weight: 500; font-size: 0.95rem; }
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Poppins', sans-serif;
+            transition: all 0.3s; background: #fcfcfc;
+        }
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none; border-color: var(--primary-color); background: #fff; box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        /* Interactive Star Rating */
+        .star-rating-input { display: flex; gap: 5px; font-size: 24px; color: #ddd; cursor: pointer; margin-bottom: 15px; }
+        .star-rating-input i { transition: color 0.2s; }
+        .star-rating-input i.active, .star-rating-input i.hover { color: #ffc107; }
+
+        .btn-submit {
+            width: 100%; background: var(--secondary-color); color: var(--primary-color); border: none;
+            padding: 15px; font-size: 1.1rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.3s;
+        }
+        .btn-submit:hover { background: var(--primary-color); color: #fff; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+
+        #review-success {
+            display: none; background: #e8f5e9; color: #2e7d32; padding: 15px; border-radius: 8px;
+            border: 1px solid #4caf50; margin-top: 15px; text-align: center; font-weight: 500;
+        }
+
+        /* Display Reviews Area */
+        .display-reviews { display: flex; flex-direction: column; gap: 25px; }
+        .review-card {
+            background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            position: relative; transition: 0.3s; border-left: 4px solid var(--primary-color);
+        }
+        .review-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .review-card i.fa-quote-right { position: absolute; top: 30px; right: 30px; font-size: 40px; color: rgba(212, 175, 55, 0.15); }
+        
+        .review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
+        .reviewer-info h4 { font-size: 1.2rem; color: var(--secondary-color); margin-bottom: 2px; }
+        .reviewer-info span.event-type { font-size: 0.85rem; color: #888; background: #f0f0f0; padding: 3px 10px; border-radius: 12px; }
+        
+        .review-stars { color: #ffc107; font-size: 14px; margin-top: 5px; }
+        .review-date { font-size: 0.85rem; color: #aaa; }
+        
+        .review-text { font-size: 1rem; color: #555; font-style: italic; line-height: 1.8; }
+
+        /* --- FOOTER --- */
+        footer { background-color: var(--secondary-color); color: var(--text-light); padding: 50px 10% 20px; text-align: center; margin-top: 40px; }
+        .footer-logo { font-size: 2rem; color: var(--primary-color); margin-bottom: 15px; font-family: 'Playfair Display', serif;}
+        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; font-size: 0.9rem; color: #aaa; }
+
+        /* --- WHATSAPP FLOAT --- */
+        .whatsapp-float {
+            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
+            background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center;
+            font-size: 32px; box-shadow: 2px 2px 15px rgba(0,0,0,0.2); z-index: 1000;
+            display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); background-color: #20b858; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .reviews-container { grid-template-columns: 1fr; } /* Stack on tablets */
+            .write-review-box { position: static; margin-bottom: 40px; }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            #menu-btn { display: block; }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background-color: rgba(26, 26, 46, 0.98); flex-direction: column; justify-content: center; transition: 0.4s; }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.3rem; margin: 10px 0; }
+            
+            .page-banner { height: 35vh; }
+            .page-banner h1 { font-size: 2.5rem; }
+            .reviews-container { padding: 40px 20px; }
+            .review-card { padding: 20px; }
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">The Royal Events</a>
+        <i class="fa-solid fa-bars" id="menu-btn"></i>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="gallery.html">Gallery</a> 
+            <a href="review.html" class="active">Reviews</a>
+            <a href="booking.html" class="nav-btn">Book Now</a>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <h1>Client Testimonials</h1>
+        <p>Read what our happy families and corporate clients have to say about our royal services.</p>
+    </section>
+
+    <section class="reviews-container">
+        
+        <div class="write-review-box reveal">
+            <h3>Share Your <span>Experience</span></h3>
+            <form id="reviewForm">
+                <div class="input-group">
+                    <label>Your Full Name *</label>
+                    <input type="text" id="revName" placeholder="E.g., Amit Kumar" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>Event Type *</label>
+                    <select id="revEvent" required>
+                        <option value="" disabled selected>Select Event Type</option>
+                        <option value="Wedding Ceremony">Wedding Ceremony</option>
+                        <option value="Birthday Party">Birthday Party</option>
+                        <option value="Rice Ceremony">Rice Ceremony</option>
+                        <option value="Corporate Event">Corporate Event</option>
+                        <option value="Other Event">Other Event</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Rate Our Service *</label>
+                    <div class="star-rating-input" id="starRating">
+                        <i class="fa-solid fa-star" data-val="1"></i>
+                        <i class="fa-solid fa-star" data-val="2"></i>
+                        <i class="fa-solid fa-star" data-val="3"></i>
+                        <i class="fa-solid fa-star" data-val="4"></i>
+                        <i class="fa-solid fa-star" data-val="5"></i>
+                    </div>
+                    <input type="hidden" id="revRating" value="0" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Your Comment *</label>
+                    <textarea id="revComment" rows="4" placeholder="How was the decoration, food, and management?" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Review</button>
+                <div id="review-success"><i class="fa-solid fa-circle-check"></i> Thank you! Your review has been posted.</div>
+            </form>
+        </div>
+
+        <div class="display-reviews" id="reviewsList">
+            <div class="review-card reveal">
+                <i class="fa-solid fa-quote-right"></i>
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <h4>Rahul Sharma</h4>
+                        <span class="event-type">Wedding Ceremony</span>
+                        <div class="review-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                    <span class="review-date">12 March 2026</span>
+                </div>
+                <p class="review-text">"The Royal Events managed my sister's wedding perfectly. From the flower decoration to the premium catering, everything was exactly what we asked for. The team is very polite and professional. Highly recommended in Cooch Behar!"</p>
+            </div>
+
+            <div class="review-card reveal">
+                <i class="fa-solid fa-quote-right"></i>
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <h4>Priya Das</h4>
+                        <span class="event-type">Birthday Party</span>
+                        <div class="review-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                    <span class="review-date">05 Feb 2026</span>
+                </div>
+                <p class="review-text">"Booked them for my son's 1st birthday. The jungle theme decor was mind-blowing! All the kids loved it. Manoj ji took away all our tension. The food was also very tasty and hygienic."</p>
+            </div>
+            
+            </div>
+
+    </section>
+
+    <footer>
+        <h2 class="footer-logo">The Royal Events Planner</h2>
+        <div class="copyright">&copy; 2026 The Royal Events Planner. All Rights Reserved.</div>
+    </footer>
+
+    <a href="https://wa.me/917827727703" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // --- MOBILE MENU TOGGLE ---
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+
+        // --- INTERACTIVE STAR RATING LOGIC ---
+        const stars = document.querySelectorAll('#starRating i');
+        const ratingInput = document.getElementById('revRating');
+
+        stars.forEach(star => {
+            // Hover effect
+            star.addEventListener('mouseover', function() {
+                const val = this.getAttribute('data-val');
+                stars.forEach(s => {
+                    if(s.getAttribute('data-val') <= val) s.classList.add('hover');
+                    else s.classList.remove('hover');
+                });
+            });
+
+            // Remove hover effect
+            star.addEventListener('mouseout', function() {
+                stars.forEach(s => s.classList.remove('hover'));
+            });
+
+            // Click to set rating
+            star.addEventListener('click', function() {
+                const val = this.getAttribute('data-val');
+                ratingInput.value = val;
+                stars.forEach(s => {
+                    if(s.getAttribute('data-val') <= val) s.classList.add('active');
+                    else s.classList.remove('active');
+                });
+            });
+        });
+
+        // --- REVIEW SUBMISSION LOGIC ---
+        const reviewForm = document.getElementById('reviewForm');
+        const reviewsList = document.getElementById('reviewsList');
+
+        // Function to create star HTML string
+        function getStarsHTML(rating) {
+            let html = '';
+            for(let i=1; i<=5; i++) {
+                if(i <= rating) html += '<i class="fa-solid fa-star"></i>';
+                else html += '<i class="fa-regular fa-star" style="color:#ddd"></i>';
+            }
+            return html;
+        }
+
+        // Function to render a single review card
+        function createReviewCard(review) {
+            const div = document.createElement('div');
+            div.className = 'review-card reveal active'; // 'active' so it shows immediately
+            div.innerHTML = `
+                <i class="fa-solid fa-quote-right"></i>
+                <div class="review-header">
+                    <div class="reviewer-info">
+                        <h4>${review.name}</h4>
+                        <span class="event-type">${review.event}</span>
+                        <div class="review-stars">
+                            ${getStarsHTML(review.rating)}
+                        </div>
+                    </div>
+                    <span class="review-date">${review.date}</span>
+                </div>
+                <p class="review-text">"${review.comment}"</p>
+            `;
+            return div;
+        }
+
+        // Load existing reviews from LocalStorage on page load
+        function loadReviews() {
+            const savedReviews = JSON.parse(localStorage.getItem('royal_reviews')) || [];
+            // Add saved reviews to the top of the list
+            savedReviews.forEach(rev => {
+                reviewsList.prepend(createReviewCard(rev));
+            });
+        }
+
+        // Handle form submit
+        reviewForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('revName').value;
+            const event = document.getElementById('revEvent').value;
+            const rating = document.getElementById('revRating').value;
+            const comment = document.getElementById('revComment').value;
+
+            if(rating == 0) {
+                alert("Please select a star rating!");
+                return;
+            }
+
+            // Create Review Object
+            const newReview = {
+                name: name,
+                event: event,
+                rating: parseInt(rating),
+                comment: comment,
+                date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+            };
+
+            // Save to LocalStorage
+            const savedReviews = JSON.parse(localStorage.getItem('royal_reviews')) || [];
+            savedReviews.push(newReview);
+            localStorage.setItem('royal_reviews', JSON.stringify(savedReviews));
+
+            // Add to UI immediately (at the top)
+            reviewsList.prepend(createReviewCard(newReview));
+
+            // Reset Form and show success message
+            reviewForm.reset();
+            stars.forEach(s => s.classList.remove('active'));
+            ratingInput.value = 0;
+            
+            const successMsg = document.getElementById('review-success');
+            successMsg.style.display = 'block';
+            setTimeout(() => { successMsg.style.display = 'none'; }, 4000);
+        });
+
+        // Initialize page
+        window.onload = () => {
+            loadReviews();
+            reveal(); // Trigger scroll animations
+        };
+
+        // Scroll Reveal Animation 
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+    </script>
+</body>
+</html>
