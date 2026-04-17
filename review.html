@@ -117,14 +117,23 @@
         .reviewer-info span.event-type { font-size: 0.85rem; color: #888; background: #f0f0f0; padding: 3px 10px; border-radius: 12px; }
         
         .review-stars { color: #ffc107; font-size: 14px; margin-top: 5px; }
-        .review-date { font-size: 0.85rem; color: #aaa; }
+        .review-date { font-size: 0.85rem; color: #aaa; font-weight: 500; }
         
         .review-text { font-size: 1rem; color: #555; font-style: italic; line-height: 1.8; }
 
         /* --- FOOTER --- */
-        footer { background-color: var(--secondary-color); color: var(--text-light); padding: 50px 10% 20px; text-align: center; margin-top: 40px; }
-        .footer-logo { font-size: 2rem; color: var(--primary-color); margin-bottom: 15px; font-family: 'Playfair Display', serif;}
-        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; font-size: 0.9rem; color: #aaa; }
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            padding: 60px 10% 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        .footer-content { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .footer-logo { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 15px; font-family: 'Playfair Display', serif;}
+        .footer-info { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; font-size: 1.05rem; }
+        .footer-info i { color: var(--primary-color); }
+        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 30px; font-size: 0.9rem; color: #aaa; }
 
         /* --- WHATSAPP FLOAT --- */
         .whatsapp-float {
@@ -152,6 +161,7 @@
             .page-banner h1 { font-size: 2.5rem; }
             .reviews-container { padding: 40px 20px; }
             .review-card { padding: 20px; }
+            .footer-info { flex-direction: column; text-align: center; gap: 5px; }
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 28px; }
         }
     </style>
@@ -199,6 +209,11 @@
                 </div>
 
                 <div class="input-group">
+                    <label>Event Date *</label>
+                    <input type="date" id="revDate" required>
+                </div>
+
+                <div class="input-group">
                     <label>Rate Our Service *</label>
                     <div class="star-rating-input" id="starRating">
                         <i class="fa-solid fa-star" data-val="1"></i>
@@ -231,7 +246,7 @@
                             <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
                         </div>
                     </div>
-                    <span class="review-date">12 March 2026</span>
+                    <span class="review-date">12 Mar 2026</span>
                 </div>
                 <p class="review-text">"The Royal Events managed my sister's wedding perfectly. From the flower decoration to the premium catering, everything was exactly what we asked for. The team is very polite and professional. Highly recommended in Cooch Behar!"</p>
             </div>
@@ -250,14 +265,29 @@
                 </div>
                 <p class="review-text">"Booked them for my son's 1st birthday. The jungle theme decor was mind-blowing! All the kids loved it. Manoj ji took away all our tension. The food was also very tasty and hygienic."</p>
             </div>
-            
-            </div>
+        </div>
 
     </section>
 
     <footer>
-        <h2 class="footer-logo">The Royal Events Planner</h2>
-        <div class="copyright">&copy; 2026 The Royal Events Planner. All Rights Reserved.</div>
+        <div class="footer-content">
+            <h2 class="footer-logo">The Royal Events Planner</h2>
+            <div class="footer-info">
+                <i class="fa-solid fa-user-tie"></i>
+                <span><strong>Proprietor:</strong> Manoj Sahani</span>
+            </div>
+            <div class="footer-info">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Debi Bari, Nuta Para, Cooch Behar, PIN - 736101</span>
+            </div>
+            <div class="footer-info">
+                <i class="fa-solid fa-phone"></i>
+                <span>+91 7827727703</span> | <span>+91 8637344583</span>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 The Royal Events Planner. All Rights Reserved.
+        </div>
     </footer>
 
     <a href="https://wa.me/917827727703" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
@@ -268,7 +298,30 @@
         // --- MOBILE MENU TOGGLE ---
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
-        menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+        const menuIcon = menuBtn;
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')){
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            } else {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            const isClickInsideMenu = navLinks.contains(event.target);
+            const isClickOnButton = menuBtn.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnButton && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
 
         // --- INTERACTIVE STAR RATING LOGIC ---
         const stars = document.querySelectorAll('#starRating i');
@@ -338,7 +391,6 @@
         // Load existing reviews from LocalStorage on page load
         function loadReviews() {
             const savedReviews = JSON.parse(localStorage.getItem('royal_reviews')) || [];
-            // Add saved reviews to the top of the list
             savedReviews.forEach(rev => {
                 reviewsList.prepend(createReviewCard(rev));
             });
@@ -350,6 +402,7 @@
 
             const name = document.getElementById('revName').value;
             const event = document.getElementById('revEvent').value;
+            const rawDate = document.getElementById('revDate').value;
             const rating = document.getElementById('revRating').value;
             const comment = document.getElementById('revComment').value;
 
@@ -358,13 +411,17 @@
                 return;
             }
 
+            // Format the date nicely (e.g., from 2026-04-15 to 15 Apr 2026)
+            const dateObj = new Date(rawDate);
+            const formattedDate = dateObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
             // Create Review Object
             const newReview = {
                 name: name,
                 event: event,
                 rating: parseInt(rating),
                 comment: comment,
-                date: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+                date: formattedDate
             };
 
             // Save to LocalStorage
