@@ -3,29 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Events Planner | Best Event Planners</title>
+    
+    <title>Best Event Planner in Cooch Behar | The Royal Events Planner</title>
+    
+    <meta name="description" content="Looking for the best event planner in Cooch Behar? The Royal Events Planner offers premium wedding planning, birthday decorations, and royal catering services. Book Manoj Sahani for a 100% stress-free event!">
+    <meta name="keywords" content="Best Event Planner in Cooch Behar, Wedding Planner in New Cooch Behar, Birthday Decoration Cooch Behar, Top Catering Services in Cooch Behar, The Royal Events Planner, Event Management West Bengal, Manoj Sahani, Cooch Behar Wedding Decorators, Budget Event Organizer">
+    <meta name="author" content="Manoj Sahani">
+    <link rel="canonical" href="https://www.theroyaleventsplanner.in" />
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.theroyaleventsplanner.in">
+    <meta property="og:title" content="The Royal Events Planner | Cooch Behar's No.1 Event Organizer">
+    <meta property="og:description" content="Make your events royal! Premium Wedding Planning, Birthday Decoration & Catering in Cooch Behar.">
+    <meta property="og:image" content="https://www.theroyaleventsplanner.in/logo.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "The Royal Events Planner",
+      "image": "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920", 
+      "url": "https://www.theroyaleventsplanner.in",
+      "telephone": "+918927727703",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Debi Bari, Nuta Para",
+        "addressLocality": "New Cooch Behar",
+        "addressRegion": "West Bengal",
+        "postalCode": "736101",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 26.3260,
+        "longitude": 89.4530
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    }
+    </script>
+
+    <script>
+        if (window.location.pathname.endsWith("index.html")) {
+            window.location.replace("/");
+        }
+    </script>
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         /* --- GLOBAL STYLES --- */
         :root {
-            --primary-color: #d4af37; /* Royal Gold */
+            --primary-color: #d4af37; 
             --primary-dark: #b5952f;
-            --secondary-color: #1a1a2e; /* Deep Navy Blue */
+            --secondary-color: #1a1a2e; 
             --text-dark: #333;
             --text-light: #fff;
             --bg-light: #f4f6f9;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
-        /* Responsive Fix: Ensure body never overflows horizontally */
         html, body {
             font-family: 'Poppins', sans-serif;
             color: var(--text-dark);
@@ -36,173 +83,51 @@
             max-width: 100vw;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-            color: var(--secondary-color);
-        }
-
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--secondary-color); }
         img { max-width: 100%; height: auto; }
 
         /* --- ANIMATIONS --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease-out;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- NAVBAR --- */
         header {
-            background-color: rgba(26, 26, 46, 0.98);
-            padding: 15px 50px;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
+            background-color: rgba(26, 26, 46, 0.98); padding: 15px 50px; position: fixed;
+            width: 100%; top: 0; z-index: 1000; display: flex; justify-content: space-between;
+            align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: all 0.3s ease;
         }
 
-        .logo {
-            color: var(--primary-color);
-            font-size: 26px;
-            font-weight: 800;
-            text-decoration: none;
-            font-family: 'Playfair Display', serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 25px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--primary-color);
-            transition: width 0.3s;
-        }
-
+        .logo { color: var(--primary-color); font-size: 26px; font-weight: 800; text-decoration: none; font-family: 'Playfair Display', serif; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { color: var(--text-light); text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.3s; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--primary-color); transition: width 0.3s; }
         .nav-links a:hover::after { width: 100%; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary-color); }
 
-        .nav-btn {
-            background: var(--primary-color);
-            color: var(--secondary-color) !important;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: 600 !important;
-        }
+        .nav-btn { background: var(--primary-color); color: var(--secondary-color) !important; padding: 8px 20px; border-radius: 25px; font-weight: 600 !important; }
         .nav-btn::after { display: none; }
         .nav-btn:hover { background: #fff; transform: translateY(-2px); }
-
-        #menu-btn {
-            display: none;
-            color: var(--primary-color);
-            font-size: 28px;
-            cursor: pointer;
-        }
+        #menu-btn { display: none; color: var(--primary-color); font-size: 28px; cursor: pointer; }
 
         /* --- HERO SECTION --- */
         .hero {
             height: 100vh;
             background: linear-gradient(rgba(26, 26, 46, 0.75), rgba(26, 26, 46, 0.85)), url('https://w0.peakpx.com/wallpaper/400/200/HD-wallpaper-ganesh-ji-3d-jai-ganesh-lord-god.jpg') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            color: var(--text-light);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 0 20px; color: var(--text-light);
         }
+        .hero-content { animation: fadeInUp 1s ease-out; }
 
-        .hero-content {
-            animation: fadeInUp 1s ease-out;
-        }
+        .hero h1 { color: #fff; font-size: 2.8rem; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; text-shadow: 2px 2px 10px rgba(0,0,0,0.6); }
+        .hero h2 { color: var(--primary-color); font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 800; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.6); }
+        .hero p { font-size: 1.3rem; max-width: 750px; margin: 0 auto 35px; text-shadow: 1px 1px 5px rgba(0,0,0,0.5); font-weight: 300; }
 
-        .hero h1 {
-            color: var(--primary-color);
-            font-size: 4.5rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            max-width: 750px;
-            margin: 0 auto 35px;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-            font-weight: 300;
-        }
-
-        .btn {
-            background-color: var(--primary-color);
-            color: var(--secondary-color);
-            padding: 16px 35px;
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .btn:hover {
-            background-color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
-        }
+        .btn { background-color: var(--primary-color); color: var(--secondary-color); padding: 16px 35px; text-decoration: none; font-weight: 600; border-radius: 30px; transition: all 0.3s ease; display: inline-block; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); }
+        .btn:hover { background-color: #fff; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); }
 
         /* --- WHY CHOOSE US (4 BOXES) --- */
-        .features {
-            padding: 50px 5%;
-            background: #fff;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            text-align: center;
-            margin-top: -60px;
-            position: relative;
-            z-index: 10;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            width: 90%;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
+        .features { padding: 50px 5%; background: #fff; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; text-align: center; margin-top: -60px; position: relative; z-index: 10; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 90%; max-width: 1200px; margin-left: auto; margin-right: auto; }
         .feature-box { padding: 20px; transition: transform 0.3s; }
         .feature-box:hover { transform: translateY(-5px); }
         .feature-box i { font-size: 40px; color: var(--primary-color); margin-bottom: 15px; }
@@ -210,63 +135,26 @@
         .feature-box p { font-size: 0.9rem; color: #555; }
 
         /* --- HIGHLIGHTED CATERING SECTION --- */
-        .catering-highlight {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 100px 10%;
-            gap: 60px;
-            overflow: hidden;
-        }
-
+        .catering-highlight { display: flex; align-items: center; justify-content: space-between; padding: 100px 10%; gap: 60px; overflow: hidden; }
         .catering-text { flex: 1; }
         .catering-text h2 { font-size: 3rem; margin-bottom: 25px; line-height: 1.2; }
         .catering-text h2 span { color: var(--primary-color); }
         .catering-text p { margin-bottom: 25px; font-size: 1.1rem; color: #555; }
         
         .catering-img { flex: 1; position: relative; width: 100%; }
-        .catering-img img {
-            width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            transition: transform 0.5s;
-        }
+        .catering-img img { width: 100%; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); transition: transform 0.5s; }
         .catering-img:hover img { transform: scale(1.02); }
 
         /* --- SERVICES SECTION --- */
-        .services {
-            padding: 80px 10%;
-            background-color: var(--secondary-color);
-            text-align: center;
-            color: #fff;
-        }
-
+        .services { padding: 80px 10%; background-color: var(--secondary-color); text-align: center; color: #fff; }
         .services-title { font-size: 2.8rem; margin-bottom: 50px; color: #fff; }
         .services-title span { color: var(--primary-color); }
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .service-card {
-            background: #fff;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .service-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
-        }
-
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .service-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: all 0.4s ease; position: relative; }
+        .service-card:hover { transform: translateY(-15px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2); }
         .service-card img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s ease; }
         .service-card:hover img { transform: scale(1.1); }
-
         .service-content { padding: 25px 20px; background: #fff; position: relative; z-index: 2; }
         .service-content h3 { font-size: 1.4rem; margin-bottom: 10px; color: var(--secondary-color); }
         .service-content p { color: #666; font-size: 0.95rem; }
@@ -276,21 +164,8 @@
         .reviews h2 { font-size: 2.5rem; margin-bottom: 50px; }
         .reviews h2 span { color: var(--primary-color); }
 
-        .review-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .review-box {
-            background: var(--bg-light);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            text-align: left;
-            position: relative;
-        }
-
+        .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .review-box { background: var(--bg-light); padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: left; position: relative; }
         .review-box i.fa-quote-left { font-size: 40px; color: rgba(212, 175, 55, 0.2); position: absolute; top: 20px; right: 20px; }
         .stars { color: #ffc107; margin-bottom: 15px; font-size: 14px; }
         .review-text { font-size: 0.95rem; color: #555; margin-bottom: 20px; font-style: italic; }
@@ -303,29 +178,14 @@
         .loader { text-align: center; color: var(--primary-color); font-size: 1.2rem; margin-bottom: 20px; }
 
         /* --- CTA BANNER --- */
-        .cta-banner {
-            background: linear-gradient(rgba(212, 175, 55, 0.9), rgba(212, 175, 55, 0.9)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1920') center/cover fixed;
-            padding: 80px 20px;
-            text-align: center;
-            color: var(--secondary-color);
-        }
-
+        .cta-banner { background: linear-gradient(rgba(212, 175, 55, 0.9), rgba(212, 175, 55, 0.9)), url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1920') center/cover fixed; padding: 80px 20px; text-align: center; color: var(--secondary-color); }
         .cta-banner h2 { font-size: 3rem; margin-bottom: 20px; color: var(--secondary-color); }
         .cta-banner p { font-size: 1.2rem; margin-bottom: 30px; font-weight: 500; }
-        .cta-btn {
-            background: var(--secondary-color); color: #fff; padding: 15px 40px;
-            border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: 0.3s; display: inline-block;
-        }
+        .cta-btn { background: var(--secondary-color); color: #fff; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: 0.3s; display: inline-block; }
         .cta-btn:hover { background: #fff; color: var(--secondary-color); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
         /* --- FOOTER --- */
-        footer {
-            background-color: var(--secondary-color);
-            color: var(--text-light);
-            padding: 60px 10% 20px;
-            text-align: center;
-        }
-
+        footer { background-color: var(--secondary-color); color: var(--text-light); padding: 60px 10% 20px; text-align: center; }
         .footer-content { display: flex; flex-direction: column; align-items: center; gap: 15px; }
         .footer-logo { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 15px; }
         .footer-info { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; font-size: 1.05rem; }
@@ -333,19 +193,15 @@
         .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 30px; font-size: 0.9rem; color: #aaa; }
 
         /* --- WHATSAPP FLOAT --- */
-        .whatsapp-float {
-            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
-            background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center;
-            font-size: 32px; box-shadow: 2px 2px 15px rgba(0,0,0,0.2); z-index: 1000;
-            display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;
-        }
+        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 32px; box-shadow: 2px 2px 15px rgba(0,0,0,0.2); z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; }
         .whatsapp-float:hover { transform: scale(1.1); background-color: #20b858; }
 
         /* =========================================
            RESPONSIVE DESIGN FIXES FOR MOBILE
            ========================================= */
         @media (max-width: 900px) {
-            .hero h1 { font-size: 3.5rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero h2 { font-size: 3.5rem; }
             .catering-highlight { flex-direction: column; text-align: center; padding: 60px 5%; }
             .features { grid-template-columns: 1fr 1fr; } 
         }
@@ -354,43 +210,28 @@
             header { padding: 15px 20px; }
             #menu-btn { display: block; }
             
-            /* Mobile Nav styling */
-            .nav-links {
-                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
-                background-color: rgba(26, 26, 46, 0.98); flex-direction: column;
-                justify-content: center; transition: 0.4s ease; box-shadow: -5px 0 15px rgba(0,0,0,0.5);
-            }
+            .nav-links { position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background-color: rgba(26, 26, 46, 0.98); flex-direction: column; justify-content: center; transition: 0.4s ease; box-shadow: -5px 0 15px rgba(0,0,0,0.5); }
             .nav-links.active { right: 0; }
             .nav-links a { font-size: 1.3rem; margin: 10px 0; }
             .nav-links a::after { display: none; }
             
-            /* Hero Mobile */
             .hero { background-position: center center; }
-            .hero h1 { font-size: 2.8rem; }
+            .hero h1 { font-size: 1.5rem; }
+            .hero h2 { font-size: 2.8rem; }
             .hero p { font-size: 1.1rem; padding: 0 10px; }
             
-            /* STRICT GRID FIXES FOR OVERFLOW */
-            .features { 
-                width: 95%; margin-top: -30px; padding: 30px 15px; 
-                grid-template-columns: 1fr; 
-            } 
-            
+            .features { width: 95%; margin-top: -30px; padding: 30px 15px; grid-template-columns: 1fr; } 
             .services { padding: 50px 20px; }
             .services-grid { grid-template-columns: 1fr; gap: 20px; } 
-            
             .reviews { padding: 50px 20px; }
             .review-grid { grid-template-columns: 1fr; gap: 20px; } 
             
             .services-title { font-size: 2.2rem; }
             .catering-text h2 { font-size: 2.2rem; }
-            
             .cta-banner { padding: 50px 20px; }
             .cta-banner h2 { font-size: 2.2rem; }
             
-            /* Footer mobile */
             .footer-info { flex-direction: column; text-align: center; gap: 5px; }
-            
-            /* WhatsApp Float Mobile */
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 28px; }
         }
     </style>
@@ -412,8 +253,9 @@
 
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>The Royal Events</h1>
-            <p>Blessed by the Divine, Crafted for Royalty. Premium event planning within your budget. Stress-free, 100% satisfaction guaranteed.</p>
+            <h1>Best Event Planner in Cooch Behar</h1>
+            <h2>The Royal Events Planner</h2>
+            <p>Blessed by the Divine, Crafted for Royalty. Premium event planning within your budget in New Cooch Behar & Alipurduar. 100% stress-free guarantee.</p>
             <a href="services.html" class="btn">Explore Our Magic <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></a>
         </div>
     </section>
@@ -422,7 +264,7 @@
         <div class="feature-box">
             <i class="fa-solid fa-award"></i>
             <h3>10+ Years Experience</h3>
-            <p>Your trust is our identity. Over 10 years of flawless experience in delivering perfection.</p>
+            <p>Your trust is our identity. Over 10 years of flawless experience delivering perfection in Cooch Behar.</p>
         </div>
         <div class="feature-box">
             <i class="fa-solid fa-wallet"></i>
@@ -443,13 +285,13 @@
 
     <section id="about" class="catering-highlight reveal">
         <div class="catering-text">
-            <h2>Premium <span>Catering Services</span></h2>
+            <h2>Best <span>Catering Services</span> in Cooch Behar</h2>
             <p>Food is the heart of every Indian event. We provide top-class, hygienic, and incredibly delicious catering services that your guests will remember for years.</p>
             <p>From traditional Bengali & North Indian feasts to modern multi-cuisine buffets, our expert chefs ensure that every bite is royal.</p>
             <a href="booking.html" class="btn" style="margin-top: 15px;">Plan Your Menu</a>
         </div>
         <div class="catering-img">
-            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=1000&auto=format&fit=crop" alt="Premium Catering">
+            <img src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=1000&auto=format&fit=crop" alt="Top Catering Services in Cooch Behar">
         </div>
     </section>
 
@@ -457,24 +299,24 @@
         <h2 class="services-title">Everything You Need For A <span>Perfect Event</span></h2>
         <div class="services-grid">
             <div class="service-card">
-                <img src="https://cdn0.weddingwire.in/article/2450/original/1280/jpg/120542-bengali-weddings-ritography-weddings-3.jpeg" alt="Marriage Ceremony">
+                <img src="https://cdn0.weddingwire.in/article/2450/original/1280/jpg/120542-bengali-weddings-ritography-weddings-3.jpeg" alt="Best Wedding Planner in Cooch Behar">
                 <div class="service-content">
                     <h3>Marriage / Wedding</h3>
-                    <p>Complete A-to-Z premium wedding planning and management.</p>
+                    <p>Complete A-to-Z premium wedding planning, mandap decoration, and event management.</p>
                 </div>
             </div>
             <div class="service-card">
-                <img src="https://media-cdn.tripadvisor.com/media/photo-s/0a/86/c0/a9/birthday-party.jpg" alt="Birthday Party">
+                <img src="https://media-cdn.tripadvisor.com/media/photo-s/0a/86/c0/a9/birthday-party.jpg" alt="Birthday Party Decoration in Cooch Behar">
                 <div class="service-content">
                     <h3>Birthday Parties</h3>
-                    <p>Thematic and fun birthday decorations for all ages.</p>
+                    <p>Thematic and fun birthday decorations, balloon setups, and party planning for all ages.</p>
                 </div>
             </div>
             <div class="service-card">
-                <img src="https://i.pinimg.com/736x/7a/b5/93/7ab593d3144e1c9e47c3d07f1898f877.jpg" alt="Photography">
+                <img src="https://i.pinimg.com/736x/7a/b5/93/7ab593d3144e1c9e47c3d07f1898f877.jpg" alt="Event Photography and Videography Cooch Behar">
                 <div class="service-content">
                     <h3>Photography & Video</h3>
-                    <p>Capturing your beautiful memories forever with HD quality.</p>
+                    <p>Capturing your beautiful memories forever with HD quality event photography.</p>
                 </div>
             </div>
         </div>
@@ -498,7 +340,7 @@
 
     <section class="cta-banner reveal">
         <h2>Ready to Plan Your Dream Event?</h2>
-        <p>Let us handle the stress while you enjoy your special day like royalty.</p>
+        <p>Let the top event planners in Cooch Behar handle the stress while you enjoy your special day.</p>
         <a href="booking.html" class="cta-btn">Book Your Event Today</a>
     </section>
 
@@ -511,7 +353,7 @@
             </div>
             <div class="footer-info">
                 <i class="fa-solid fa-location-dot"></i>
-                <span>Debi Bari, Nuta Para, Cooch Behar, PIN - 736101</span>
+                <span>Debi Bari, Nuta Para, Cooch Behar, West Bengal - 736101</span>
             </div>
             <div class="footer-info">
                 <i class="fa-solid fa-phone"></i>
@@ -519,7 +361,7 @@
             </div>
         </div>
         <div class="copyright">
-            &copy; 2026 The Royal Events Planner. All Rights Reserved.
+            &copy; 2026 The Royal Events Planner | Top Rated Event Organizer in Cooch Behar. All Rights Reserved.
         </div>
     </footer>
 
@@ -580,13 +422,8 @@
                 loader.style.display = 'none';
 
                 if(result.success && result.data.length > 0) {
-                    // Filter: Sirf 5-star reviews lo
                     const fiveStarReviews = result.data.filter(rev => rev.rating === 5);
-                    
-                    // Sort: Naye reviews upar rahein (already sorted by backend but to be safe)
                     const sortedReviews = fiveStarReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                    
-                    // Slice: Sirf top 3 reviews dikhao
                     const top3Reviews = sortedReviews.slice(0, 3);
 
                     if(top3Reviews.length > 0) {
@@ -594,10 +431,9 @@
                             let mediaHtml = '';
                             if(rev.media && rev.media.length > 0) {
                                 mediaHtml = '<div class="review-media">';
-                                // Home page par UI clean rakhne ke liye sirf 1st photo dikha rahe hain as thumbnail
                                 const m = rev.media[0];
                                 if(m.type === 'image') {
-                                    mediaHtml += `<img src="${m.url}" alt="Review Photo">`;
+                                    mediaHtml += `<img src="${m.url}" alt="Review by ${rev.name}">`;
                                 }
                                 mediaHtml += '</div>';
                             }
@@ -614,10 +450,8 @@
                             `;
                         });
                     } else {
-                        // Agar koi 5-star review nahi mila
                         homeReviewGrid.innerHTML = '<p style="grid-column: 1/-1; color:#777;">Top reviews are coming soon!</p>';
                     }
-
                 } else {
                     homeReviewGrid.innerHTML = '<p style="grid-column: 1/-1; color:#777;">No reviews yet. Be the first to share your experience!</p>';
                 }
@@ -641,10 +475,9 @@
         }
         window.addEventListener("scroll", reveal);
         
-        // --- ON PAGE LOAD ---
         window.onload = () => {
             fetchTopReviews();
-            reveal(); // Trigger scroll animations on load
+            reveal(); 
         };
     </script>
 </body>
