@@ -3,7 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Your Event | The Royal Events Planner</title>
+    
+    <title>Contact & Book Event Planner in Cooch Behar | The Royal Events</title>
+
+    <script>
+      if (window.location.pathname.endsWith("booking.html")) {
+        window.location.replace("/booking");
+      }
+    </script>
+
+    <meta name="description" content="Ready to plan a royal event? Contact Manoj Sahani at The Royal Events Planner. Book Cooch Behar's top wedding, birthday, and corporate event management team today.">
+    <meta name="keywords" content="Book event planner Cooch Behar, Contact wedding planner, The Royal Events Planner phone number, Manoj Sahani contact, Hire decorator in Cooch Behar, Event management booking West Bengal">
+    <meta name="author" content="Manoj Sahani">
+    <link rel="canonical" href="https://www.theroyaleventsplanner.in/booking" />
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.theroyaleventsplanner.in/booking">
+    <meta property="og:title" content="Book Your Event | The Royal Events Planner Cooch Behar">
+    <meta property="og:description" content="Fill out our simple form or WhatsApp us directly to start planning your dream celebration.">
+    <meta property="og:image" content="https://www.theroyaleventsplanner.in/logo.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -168,20 +190,20 @@
 <body>
 
     <header>
-        <a href="index.html" class="logo">The Royal Events</a>
+        <a href="/" class="logo">The Royal Events</a>
         <i class="fa-solid fa-bars" id="menu-btn"></i>
         <div class="nav-links" id="nav-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="services.html">Services</a>
-            <a href="gallery.html">Gallery</a> 
-            <a href="review.html">Reviews</a>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/services">Services</a>
+            <a href="/gallery">Gallery</a> 
+            <a href="/review">Reviews</a>
         </div>
     </header>
 
     <section class="page-banner">
         <h1>Book Your Event</h1>
-        <p>Fill out the details below and let us plan the perfect celebration for you.</p>
+        <p>Fill out the details below and let us plan the perfect celebration for you in Cooch Behar.</p>
     </section>
 
     <section class="booking-container reveal">
@@ -258,7 +280,7 @@
             </div>
             <div class="input-group" style="margin-bottom: 25px;">
                 <label>Event Location / Venue Address <span class="required">*</span></label>
-                <textarea id="eventLocation" rows="2" placeholder="Full address with city..." required></textarea>
+                <textarea id="eventLocation" rows="2" placeholder="Full address with city (e.g. Cooch Behar)..." required></textarea>
             </div>
 
             <h3 class="form-section-title"><i class="fa-solid fa-wand-magic-sparkles"></i> 3. Event Requirements</h3>
@@ -351,7 +373,7 @@
             }
         }
 
-        // --- ADMIN PANEL CONNECTION LOGIC (UPDATED FOR IMAGE UPLOAD) ---
+        // --- ADMIN PANEL CONNECTION LOGIC ---
         document.getElementById('royalBookingForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -362,7 +384,6 @@
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
             submitBtn.disabled = true;
 
-            // 1. JSON ki jagah FormData use kar rahe hain taaki Image bhi ja sake
             const formData = new FormData();
             
             formData.append('name', document.getElementById('clientName').value);
@@ -381,24 +402,20 @@
             formData.append('band', document.getElementById('needBand').checked ? "Yes" : "No");
             formData.append('message', document.getElementById('extraMessage').value);
 
-            // Image ko append karna (Agar user ne select ki hai toh)
             const imageFile = document.getElementById('referenceImage').files[0];
             if (imageFile) {
-                formData.append('referenceImage', imageFile); // backend me humne yahi naam use kiya hai
+                formData.append('referenceImage', imageFile);
             }
 
             try {
-                // 2. Send Data to Node.js Backend API
                 const response = await fetch('https://the-royal-events-admin.onrender.com/api/bookings', {
                     method: 'POST',
-                    // Note: FormData bhejte time 'Content-Type' nahi daalte, browser khud multipart/form-data set karta hai
                     body: formData
                 });
 
                 const result = await response.json();
 
                 if (result.success) {
-                    // 3. UI Update (Success Message dikhana)
                     document.getElementById('royalBookingForm').style.display = 'none';
                     document.getElementById('success-message').style.display = 'block';
                     window.scrollTo(0, document.querySelector('.booking-container').offsetTop - 100);
@@ -426,7 +443,7 @@
                 return;
             }
 
-            const waNumber = "918927727703"; // Fufa ji ka number
+            const waNumber = "918927727703"; 
             
             const date = document.getElementById('eventDate').value || "Not decided";
             const guests = document.getElementById('guestCount').value || "Not decided";
