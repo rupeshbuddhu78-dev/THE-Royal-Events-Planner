@@ -339,14 +339,29 @@
         // --- SERVER URL ---
         const SERVER_URL = "https://the-royal-events-admin.onrender.com";
 
-        // --- MOBILE MENU TOGGLE ---
+        // --- MOBILE MENU TOGGLE FIX ---
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
         
-        menuBtn.addEventListener('click', () => {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents click from bubbling to document immediately
             navLinks.classList.toggle('active');
             menuBtn.classList.toggle('fa-bars');
             menuBtn.classList.toggle('fa-xmark');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (navLinks.classList.contains('active')) {
+                const isClickInsideMenu = navLinks.contains(event.target);
+                const isClickOnButton = menuBtn.contains(event.target);
+
+                if (!isClickInsideMenu && !isClickOnButton) {
+                    navLinks.classList.remove('active');
+                    menuBtn.classList.remove('fa-xmark');
+                    menuBtn.classList.add('fa-bars');
+                }
+            }
         });
 
         // --- STAR RATING ---
@@ -398,7 +413,7 @@
             });
         });
 
-        // --- REVIEW SUBMISSION (FETCH API WITH FORMDATA) ---
+        // --- REVIEW SUBMISSION & RENDERING ---
         const reviewForm = document.getElementById('reviewForm');
         const reviewsList = document.getElementById('reviewsList');
 
@@ -443,7 +458,7 @@
             return div;
         }
 
-        // LOAD EXISTING REVIEWS FROM BACKEND
+        // LOAD REVIEWS FROM MONGODB DATABASE
         async function fetchReviews() {
             try {
                 const response = await fetch(`${SERVER_URL}/api/reviews`);
@@ -456,10 +471,13 @@
                         reviewsList.appendChild(createReviewCard(rev));
                     });
                 } else {
-                    reviewsList.innerHTML = '<p style="text-align:center; color:#777;">No reviews yet. Be the first to share your experience!</p>';
+                    // Check if there are no reviews at all to show the empty message
+                    if(reviewsList.children.length === 0) {
+                        reviewsList.innerHTML = '<p id="emptyMsg" style="text-align:center; color:#777;">No reviews yet. Be the first to share your experience!</p>';
+                    }
                 }
             } catch (err) {
-                document.getElementById('dbLoader').innerHTML = '<span style="color:red;">Failed to connect to server. Showing local data.</span>';
+                document.getElementById('dbLoader').innerHTML = '<span style="color:red;">Failed to connect to server. Please try again later.</span>';
             }
         }
 
@@ -503,11 +521,10 @@
 
                 if(result.success) {
                     // Remove "No reviews yet" message if it exists
-                    if (reviewsList.querySelector('p')) {
-                        reviewsList.innerHTML = '';
-                    }
+                    const emptyMsg = document.getElementById('emptyMsg');
+                    if (emptyMsg) emptyMsg.remove();
 
-                    // Add new review to top of the list
+                    // FIX: Add new review to top of the list WITHOUT clearing other reviews
                     reviewsList.prepend(createReviewCard(result.data));
 
                     // Reset form
