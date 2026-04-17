@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services & Pricing | The Royal Events Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary-color: #d4af37; /* Royal Gold */
+            --secondary-color: #1a1a2e; /* Deep Navy Blue */
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #f4f6f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        /* Responsive Fix: Ensure body never overflows horizontally */
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            overflow-x: hidden; 
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--secondary-color);
+        }
+
+        /* --- ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- NAVBAR --- */
+        header {
+            background-color: rgba(26, 26, 46, 0.98);
+            padding: 15px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 26px;
+            font-weight: 800;
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute; width: 0; height: 2px; bottom: -5px; left: 0;
+            background-color: var(--primary-color); transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-color); }
+
+        .nav-btn {
+            background: var(--primary-color); color: var(--secondary-color) !important;
+            padding: 8px 20px; border-radius: 25px; font-weight: 600 !important;
+        }
+        .nav-btn::after { display: none !important; }
+        .nav-btn:hover { background: #fff; transform: translateY(-2px); }
+
+        #menu-btn { display: none; color: var(--primary-color); font-size: 28px; cursor: pointer; }
+
+        /* --- PAGE BANNER --- */
+        .page-banner {
+            height: 50vh;
+            background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(26, 26, 46, 0.85)), url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+            animation: fadeIn 1.5s ease;
+            margin-top: 60px;
+            width: 100%;
+        }
+
+        .page-banner h1 {
+            color: var(--primary-color);
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .page-banner p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+
+        /* --- SERVICES GRID SECTION --- */
+        .services-page-wrap {
+            padding: 80px 5%; /* Reduced padding so cards have more space */
+            background-color: var(--bg-light);
+            width: 100%;
+        }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .services-header h2 {
+            font-size: 3rem;
+            color: var(--secondary-color);
+        }
+
+        .services-header h2 span {
+            color: var(--primary-color);
+        }
+
+        .services-grid {
+            display: grid;
+            /* Responsive Fix: Reduced min-width to 280px so it fits on all small phones */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Interactive Service Card */
+        .service-box {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid transparent;
+            width: 100%;
+        }
+
+        .service-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .service-img {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .service-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .service-box:hover .service-img img {
+            transform: scale(1.08);
+        }
+
+        .service-info {
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .service-info h3 {
+            font-size: 1.4rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .service-info p.desc {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        /* Features List Styling */
+        .features-list {
+            list-style: none;
+            margin-bottom: 25px;
+            flex-grow: 1; 
+        }
+
+        .features-list li {
+            font-size: 0.9rem;
+            color: #444;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .features-list li i {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        /* --- PRICING & BOOKING FOOTER --- */
+        .service-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: auto;
+        }
+
+        .price-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .price-amount {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Clickable Link Button */
+        .book-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .book-link i {
+            margin-left: 6px;
+            transition: transform 0.3s;
+        }
+
+        .book-link:hover {
+            background: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .book-link:hover i {
+            transform: translateX(5px);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--secondary-color); color: var(--text-light);
+            padding: 60px 10% 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);
+            width: 100%;
+        }
+        .footer-logo { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 15px; }
+        .footer-info { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; font-size: 1.05rem; }
+        .footer-info i { color: var(--primary-color); }
+        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 30px; font-size: 0.9rem; color: #aaa; }
+
+        /* --- WHATSAPP FLOAT --- */
+        .whatsapp-float {
+            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
+            background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center;
+            font-size: 32px; box-shadow: 2px 2px 15px rgba(0,0,0,0.2); z-index: 1000;
+            display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); background-color: #20b858; }
+
+        /* --- RESPONSIVE MOBILE FIXES --- */
+        @media (max-width: 900px) {
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            #menu-btn { display: block; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+                background-color: rgba(26, 26, 46, 0.98); flex-direction: column;
+                justify-content: center; transition: 0.4s ease; box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.3rem; margin: 10px 0; }
+            
+            .page-banner { height: 40vh; padding-top: 40px; }
+            .page-banner h1 { font-size: 2.5rem; }
+            .page-banner p { font-size: 1rem; }
+            
+            /* Strict Mobile Grid & Padding Fix */
+            .services-page-wrap { padding: 50px 20px; }
+            .services-header h2 { font-size: 2.2rem; }
+            .services-grid { grid-template-columns: 1fr; gap: 25px; } /* Single column strictly */
+            
+            .service-info { padding: 20px 15px; }
+            .price-amount { font-size: 1rem; }
+            .book-link { padding: 8px 12px; font-size: 0.85rem; }
+            
+            .footer-info { flex-direction: column; text-align: center; }
+            
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">The Royal Events</a>
+        <i class="fa-solid fa-bars" id="menu-btn"></i>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html" class="active">Services</a>
+            <a href="gallery.html">Gallery</a> 
+            <a href="index.html#reviews">Reviews</a>
+            <a href="booking.html" class="nav-btn">Book Now</a>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <h1>Our Services</h1>
+        <p>Explore our royal packages and premium services tailored perfectly for your special day.</p>
+    </section>
+
+    <section class="services-page-wrap">
+        <div class="services-header reveal">
+            <h2>What We <span>Offer</span></h2>
+        </div>
+
+        <div class="services-grid">
+            
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800&auto=format&fit=crop" alt="Marriage Ceremony">
+                </div>
+                <div class="service-info">
+                    <h3>1. Wedding Planning</h3>
+                    <p class="desc">Hum aapki shaadi ko ek royal aur memorable event bana dete hain. Venue se lekar decoration aur catering tak sab kuch hum handle karte hain.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Stage decoration (flower/theme)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Lighting & Mandap setup</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Catering arrangement</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Guest management & DJ</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Starting From</span>
+                            <span class="price-amount">₹50K – ₹3 Lakh</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop" alt="Wedding Ceremony">
+                </div>
+                <div class="service-info">
+                    <h3>2. Wedding Ceremony</h3>
+                    <p class="desc">Low budget me simple aur beautiful wedding arrangement for your special day.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Basic decoration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Chairs & tent arrangement</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Lighting setup</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Entry gate design</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Starting From</span>
+                            <span class="price-amount">₹20K – ₹80K</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1604014237800-1c9102c219da?q=80&w=800&auto=format&fit=crop" alt="Rice Ceremony">
+                </div>
+                <div class="service-info">
+                    <h3>3. Rice Ceremony</h3>
+                    <p class="desc">Bachon ke rice ceremony (Annaprashan) ke liye cute aur colorful decoration.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Baby theme decoration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Balloon decoration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Stage setup</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Photography (optional)</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Starting From</span>
+                            <span class="price-amount">₹10K – ₹40K</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?q=80&w=800&auto=format&fit=crop" alt="Birthday Party">
+                </div>
+                <div class="service-info">
+                    <h3>4. Birthday Party</h3>
+                    <p class="desc">Kids aur adults dono ke liye premium and creative theme-based birthday setup.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Balloon decoration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Theme setup (cartoon/royal)</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Cake table decoration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Music system</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Starting From</span>
+                            <span class="price-amount">₹5K – ₹25K</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop" alt="Get Together Party">
+                </div>
+                <div class="service-info">
+                    <h3>5. Get Together Party</h3>
+                    <p class="desc">Family ya friends ke liye small aur elegant event planning and setup.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Simple decoration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Seating arrangement</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Ambient lighting</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Background music</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Starting From</span>
+                            <span class="price-amount">₹8K – ₹30K</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=800&auto=format&fit=crop" alt="Photography">
+                </div>
+                <div class="service-info">
+                    <h3>6. Photo Graphics</h3>
+                    <p class="desc">Professional photography aur video coverage to capture your timeless memories.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Event photography</li>
+                        <li><i class="fa-solid fa-circle-check"></i> High-quality video shooting</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Custom album design</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Drone coverage (optional)</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Starting From</span>
+                            <span class="price-amount">₹10K – ₹50K</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=800&auto=format&fit=crop" alt="Flower Decorations">
+                </div>
+                <div class="service-info">
+                    <h3>7. Flower Decoration</h3>
+                    <p class="desc">Fresh flowers se premium aur beautiful decoration setup for all occasions.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Stage flower decoration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Entry gate design</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Table & venue decoration</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Mandap flowers</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Starting From</span>
+                            <span class="price-amount">₹15K – ₹1 Lakh</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=800&auto=format&fit=crop" alt="Band Party">
+                </div>
+                <div class="service-info">
+                    <h3>8. Band Party</h3>
+                    <p class="desc">Wedding aur baraat ke liye energetic band aur DJ services to make everyone dance.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Professional band team</li>
+                        <li><i class="fa-solid fa-circle-check"></i> DJ setup & mixing</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Premium sound system</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Dance floor light setup</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Starting From</span>
+                            <span class="price-amount">₹7K – ₹25K</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="service-box reveal">
+                <div class="service-img">
+                    <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop" alt="All Events">
+                </div>
+                <div class="service-info">
+                    <h3>9. All Kinds of Events</h3>
+                    <p class="desc">Har type ke personal aur professional event ke liye ek complete solution.</p>
+                    <ul class="features-list">
+                        <li><i class="fa-solid fa-circle-check"></i> Corporate events & meetings</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Anniversary celebrations</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Engagement ceremonies</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Fully custom events</li>
+                    </ul>
+                    <div class="service-footer">
+                        <div class="price-section">
+                            <span class="price-label">Pricing</span>
+                            <span class="price-amount">Custom Quote</span>
+                        </div>
+                        <a href="booking.html" class="book-link">Book Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h2 class="footer-logo">The Royal Events Planner</h2>
+            <div class="footer-info">
+                <i class="fa-solid fa-user-tie"></i>
+                <span><strong>Proprietor:</strong> Manoj Sahani</span>
+            </div>
+            <div class="footer-info">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Debi Bari, Nuta Para, Cooch Behar, PIN - 736101</span>
+            </div>
+            <div class="footer-info">
+                <i class="fa-solid fa-phone"></i>
+                <span>+91 7827727703</span> | <span>+91 8637344583</span>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 The Royal Events Planner. All Rights Reserved.
+        </div>
+    </footer>
+
+    <a href="https://wa.me/917827727703" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Mobile Menu Toggle & Click Outside to Close
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = menuBtn;
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')){
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            } else {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            const isClickInsideMenu = navLinks.contains(event.target);
+            const isClickOnButton = menuBtn.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnButton && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Scroll Reveal Animation 
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>
