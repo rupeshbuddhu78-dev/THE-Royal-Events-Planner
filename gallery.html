@@ -182,18 +182,25 @@
         }
         .whatsapp-float:hover { transform: scale(1.1); background-color: #20b858; }
 
-        /* --- RESPONSIVE DESIGN --- */
+        /* --- RESPONSIVE DESIGN (FIXED TO MATCH OTHER PAGES) --- */
         @media (max-width: 768px) {
             header { padding: 15px 20px; }
             #menu-btn { display: block; }
-            .nav-links {
-                position: absolute; top: 100%; left: -100%; width: 100%;
-                background-color: rgba(26, 26, 46, 0.98); flex-direction: column; align-items: center;
-                padding: 30px 0; transition: left 0.3s ease;
+            .nav-links { 
+                position: fixed; 
+                top: 0; 
+                right: -100%; /* Matches other pages (Slides from right) */
+                width: 70%; 
+                height: 100vh; 
+                background-color: rgba(26, 26, 46, 0.98); 
+                flex-direction: column; 
+                justify-content: center; /* Centers menu items vertically */
+                transition: right 0.4s ease; /* Matches animation style */
+                box-shadow: -5px 0 15px rgba(0,0,0,0.5); /* Added shadow for depth */
             }
-            .nav-links.active { left: 0; }
-            .nav-links a { font-size: 1.2rem; padding: 10px 0; }
-            .nav-links a::after { display: none; } /* Hide underline on mobile */
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.3rem; margin: 10px 0; }
+            
             .page-header h1 { font-size: 2.2rem; }
             .gallery-section { padding: 50px 20px; }
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
@@ -246,28 +253,29 @@
     <a href="https://wa.me/918927727703" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
 
     <script>
-        // --- Mobile Menu Logic ---
+        // --- MOBILE MENU TOGGLE FIX (Same as other pages) ---
         const menuBtn = document.getElementById('menu-btn');
         const navLinks = document.getElementById('nav-links');
-
-        menuBtn.addEventListener('click', () => {
+        
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents click from bubbling to document immediately
             navLinks.classList.toggle('active');
-            if(navLinks.classList.contains('active')){
-                menuBtn.classList.remove('fa-bars');
-                menuBtn.classList.add('fa-xmark');
-            } else {
-                menuBtn.classList.remove('fa-xmark');
-                menuBtn.classList.add('fa-bars');
-            }
+            menuBtn.classList.toggle('fa-bars');
+            menuBtn.classList.toggle('fa-xmark');
         });
 
-        const links = navLinks.querySelectorAll('a');
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                menuBtn.classList.remove('fa-xmark');
-                menuBtn.classList.add('fa-bars');
-            });
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (navLinks.classList.contains('active')) {
+                const isClickInsideMenu = navLinks.contains(event.target);
+                const isClickOnButton = menuBtn.contains(event.target);
+
+                if (!isClickInsideMenu && !isClickOnButton) {
+                    navLinks.classList.remove('active');
+                    menuBtn.classList.remove('fa-xmark');
+                    menuBtn.classList.add('fa-bars');
+                }
+            }
         });
 
         // --- DYNAMIC GALLERY FETCH LOGIC ---
