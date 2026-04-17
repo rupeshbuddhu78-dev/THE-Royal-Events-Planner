@@ -3,7 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Reviews | The Royal Events Planner</title>
+    
+    <title>Client Testimonials & Reviews | Best Event Planner in Cooch Behar</title>
+
+    <script>
+      if (window.location.pathname.endsWith("review.html")) {
+        window.location.replace("/review");
+      }
+    </script>
+
+    <meta name="description" content="Read real client reviews and testimonials for The Royal Events Planner in Cooch Behar. See why Manoj Sahani and team are the most trusted wedding and event organizers.">
+    <meta name="keywords" content="Event planner reviews Cooch Behar, The Royal Events Planner feedback, Wedding organizer testimonials, Best decoration reviews Cooch Behar, Manoj Sahani clients, Top rated event manager in West Bengal">
+    <meta name="author" content="Manoj Sahani">
+    <link rel="canonical" href="https://www.theroyaleventsplanner.in/review" />
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.theroyaleventsplanner.in/review">
+    <meta property="og:title" content="Client Reviews | The Royal Events Planner">
+    <meta property="og:description" content="Read what our happy clients say about our royal event planning and catering services in Cooch Behar.">
+    <meta property="og:image" content="https://www.theroyaleventsplanner.in/logo.png">
+
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -232,15 +254,15 @@
 <body>
 
     <header>
-        <a href="index.html" class="logo">The Royal Events</a>
+        <a href="/" class="logo">The Royal Events</a>
         <i class="fa-solid fa-bars" id="menu-btn"></i>
         <div class="nav-links" id="nav-links">
-            <a href="index.html">Home</a>
-            <a href="about.html">About</a>
-            <a href="services.html">Services</a>
-            <a href="gallery.html">Gallery</a> 
-            <a href="review.html" class="active">Reviews</a>
-            <a href="booking.html" class="nav-btn">Book Now</a>
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/services">Services</a>
+            <a href="/gallery">Gallery</a> 
+            <a href="/review" class="active">Reviews</a>
+            <a href="/booking" class="nav-btn">Book Now</a>
         </div>
     </header>
 
@@ -344,13 +366,12 @@
         const navLinks = document.getElementById('nav-links');
         
         menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents click from bubbling to document immediately
+            e.stopPropagation(); 
             navLinks.classList.toggle('active');
             menuBtn.classList.toggle('fa-bars');
             menuBtn.classList.toggle('fa-xmark');
         });
 
-        // Close menu when clicking outside
         document.addEventListener('click', (event) => {
             if (navLinks.classList.contains('active')) {
                 const isClickInsideMenu = navLinks.contains(event.target);
@@ -436,7 +457,8 @@
                     if(m.type === 'video') {
                         mediaGridHtml += `<video src="${m.url}" controls></video>`;
                     } else {
-                        mediaGridHtml += `<img src="${m.url}" alt="Review Upload">`;
+                        // 🟢 7. DYNAMIC IMAGE ALT TAG FOR SEO
+                        mediaGridHtml += `<img src="${m.url}" alt="Client review photo for ${review.event} by The Royal Events Planner">`;
                     }
                 });
                 mediaGridHtml += '</div>';
@@ -471,7 +493,6 @@
                         reviewsList.appendChild(createReviewCard(rev));
                     });
                 } else {
-                    // Check if there are no reviews at all to show the empty message
                     if(reviewsList.children.length === 0) {
                         reviewsList.innerHTML = '<p id="emptyMsg" style="text-align:center; color:#777;">No reviews yet. Be the first to share your experience!</p>';
                     }
@@ -497,7 +518,6 @@
             const rawDate = document.getElementById('revDate').value;
             const formattedDate = new Date(rawDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
 
-            // Create FormData
             const formData = new FormData();
             formData.append('name', document.getElementById('revName').value);
             formData.append('event', document.getElementById('revEvent').value);
@@ -505,7 +525,6 @@
             formData.append('comment', document.getElementById('revComment').value);
             formData.append('date', formattedDate);
 
-            // Append multiple files
             const fileInput = document.getElementById('revMedia');
             for (let i = 0; i < fileInput.files.length; i++) {
                 formData.append('reviewMedia', fileInput.files[i]); 
@@ -520,14 +539,11 @@
                 const result = await response.json();
 
                 if(result.success) {
-                    // Remove "No reviews yet" message if it exists
                     const emptyMsg = document.getElementById('emptyMsg');
                     if (emptyMsg) emptyMsg.remove();
 
-                    // FIX: Add new review to top of the list WITHOUT clearing other reviews
                     reviewsList.prepend(createReviewCard(result.data));
 
-                    // Reset form
                     reviewForm.reset();
                     stars.forEach(s => s.classList.remove('active'));
                     document.getElementById('revRating').value = 0;
@@ -552,7 +568,6 @@
         const lightboxImg = document.getElementById('lightbox-img');
         const closeBtn = document.querySelector('.lightbox-close');
 
-        // Catch clicks on images
         document.addEventListener('click', function(e) {
             if(e.target.tagName === 'IMG' && e.target.closest('.review-media-grid')) {
                 lightbox.classList.add('active');
