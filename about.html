@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | The Royal Events Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary-color: #d4af37; /* Royal Gold */
+            --secondary-color: #1a1a2e; /* Deep Navy Blue */
+            --text-dark: #333;
+            --text-light: #fff;
+            --bg-light: #f4f6f9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--secondary-color);
+        }
+
+        /* --- ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* --- NAVBAR (Same as Index) --- */
+        header {
+            background-color: rgba(26, 26, 46, 0.98);
+            padding: 15px 50px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            color: var(--primary-color);
+            font-size: 26px;
+            font-weight: 800;
+            text-decoration: none;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute; width: 0; height: 2px; bottom: -5px; left: 0;
+            background-color: var(--primary-color); transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-color); }
+
+        .nav-btn {
+            background: var(--primary-color); color: var(--secondary-color) !important;
+            padding: 8px 20px; border-radius: 25px; font-weight: 600 !important;
+        }
+        .nav-btn::after { display: none !important; }
+        .nav-btn:hover { background: #fff; transform: translateY(-2px); }
+
+        #menu-btn { display: none; color: var(--primary-color); font-size: 28px; cursor: pointer; }
+
+        /* --- PAGE BANNER --- */
+        .page-banner {
+            height: 50vh;
+            background: linear-gradient(rgba(26, 26, 46, 0.8), rgba(26, 26, 46, 0.8)), url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-light);
+            animation: fadeIn 1.5s ease;
+            margin-top: 60px; /* Offset for fixed navbar */
+        }
+
+        .page-banner h1 {
+            color: var(--primary-color);
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .page-banner p {
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        /* --- ABOUT CONTENT --- */
+        .about-section {
+            padding: 80px 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            background: #fff;
+        }
+
+        .about-text h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .about-text h2 span { color: var(--primary-color); }
+        
+        .about-text p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        /* Highlight for experience */
+        .exp-badge {
+            display: inline-block;
+            background-color: rgba(212, 175, 55, 0.1);
+            color: var(--primary-dark);
+            border: 1px solid var(--primary-color);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        /* --- FOUNDER SECTION (FUFA JI) --- */
+        .founder-section {
+            padding: 80px 10%;
+            background-color: var(--secondary-color);
+            color: #fff;
+            text-align: center;
+        }
+
+        .founder-section h2 { color: #fff; font-size: 2.5rem; margin-bottom: 40px; }
+        .founder-section h2 span { color: var(--primary-color); }
+
+        .founder-box {
+            display: flex;
+            align-items: flex-start; /* Changed to flex-start for better alignment with text */
+            justify-content: center;
+            gap: 50px; /* Increased gap */
+            max-width: 1000px; /* Wider box */
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 50px; /* More padding */
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .founder-img-container {
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        /* Fufa Ji's Image Styling */
+        .founder-img {
+            width: 250px; /* Bigger image */
+            height: 300px; /* Rectangular/Portrait crop looks more professional for this photo */
+            border-radius: 15px; /* Soft square edges instead of full circle */
+            object-fit: cover;
+            object-position: top; /* Focus on the face/upper body */
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.3);
+        }
+        
+        .years-exp {
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: 3px solid var(--secondary-color);
+        }
+        
+        .years-exp .num { font-size: 1.5rem; line-height: 1; }
+        .years-exp .text { font-size: 0.7rem; text-transform: uppercase; }
+
+        .founder-info { text-align: left; padding-top: 10px; }
+        .founder-info h3 { color: var(--primary-color); font-size: 2rem; margin-bottom: 5px; }
+        .founder-info h4 { color: #ccc; font-weight: 400; font-size: 1.1rem; margin-bottom: 20px; font-family: 'Poppins', sans-serif;}
+        
+        .founder-info p { 
+            color: #ddd; 
+            font-size: 1.05rem; 
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .quote {
+            font-style: italic;
+            border-left: 3px solid var(--primary-color);
+            padding-left: 15px;
+            margin-top: 20px;
+            color: #fff !important;
+        }
+
+        /* --- FOOTER (Same as Index) --- */
+        footer {
+            background-color: var(--secondary-color); color: var(--text-light);
+            padding: 60px 10% 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-logo { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 15px; }
+        .footer-info { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; font-size: 1.05rem; }
+        .footer-info i { color: var(--primary-color); }
+        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 30px; font-size: 0.9rem; color: #aaa; }
+
+        /* --- WHATSAPP FLOAT --- */
+        .whatsapp-float {
+            position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px;
+            background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center;
+            font-size: 32px; box-shadow: 2px 2px 15px rgba(0,0,0,0.2); z-index: 1000;
+            display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s;
+        }
+        .whatsapp-float:hover { transform: scale(1.1); background-color: #20b858; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .about-section { grid-template-columns: 1fr; text-align: center; }
+            .about-text p { text-align: center; }
+            .founder-box { flex-direction: column; text-align: center; align-items: center; padding: 30px;}
+            .founder-info { text-align: center; }
+            .quote { border-left: none; padding-left: 0; border-top: 3px solid var(--primary-color); padding-top: 15px;}
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            #menu-btn { display: block; }
+            .nav-links {
+                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+                background-color: rgba(26, 26, 46, 0.98); flex-direction: column;
+                justify-content: center; transition: 0.4s ease; box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+            }
+            .nav-links.active { right: 0; }
+            .nav-links a { font-size: 1.3rem; margin: 10px 0; }
+            
+            .page-banner h1 { font-size: 2.8rem; }
+            .about-text h2 { font-size: 2.2rem; }
+            .founder-section h2 { font-size: 2.2rem; }
+            
+            .founder-img { width: 200px; height: 250px; }
+            .years-exp { width: 60px; height: 60px; right: -10px; bottom: -10px;}
+            .years-exp .num { font-size: 1.2rem; }
+            .years-exp .text { font-size: 0.6rem; }
+            
+            .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">The Royal Events</a>
+        <i class="fa-solid fa-bars" id="menu-btn"></i>
+        <div class="nav-links" id="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html" class="active">About</a>
+            <a href="index.html#services">Services</a>
+            <a href="gallery.html">Gallery</a> 
+            <a href="index.html#reviews">Reviews</a>
+            <a href="contact.html" class="nav-btn">Book Now</a>
+        </div>
+    </header>
+
+    <section class="page-banner">
+        <h1>Our Story</h1>
+        <p>Crafting Royal Experiences in Cooch Behar for over a decade</p>
+    </section>
+
+    <section class="about-section reveal">
+        <div class="about-image">
+            <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=1000&auto=format&fit=crop" alt="Event Setup">
+        </div>
+        <div class="about-text">
+            <div class="exp-badge"><i class="fa-solid fa-star"></i> 10+ Years of Excellence</div>
+            <h2>Turning Dreams Into <span>Royal Realities</span></h2>
+            <p>Welcome to <strong>The Royal Events Planner</strong>. Located in the heart of Cooch Behar at Debi Bari, Nuta Para, we bring over a decade of rich experience in making celebrations truly unforgettable. We believe that every event, big or small, deserves a touch of royalty, elegance, and absolute perfection.</p>
+            <p>From grand weddings and elegant corporate gatherings to intimate birthday parties and rice ceremonies, our expert team handles every detail with precision. With 10+ years of trusted service, we pride ourselves on our premium catering, stunning floral decorations, and stress-free management, allowing you to enjoy your special day as a guest at your own party.</p>
+        </div>
+    </section>
+
+    <section class="founder-section reveal">
+        <h2>Meet The <span>Visionary</span></h2>
+        <div class="founder-box">
+            <div class="founder-img-container">
+                <img src="owner1.jpeg" alt="Mr. Manoj Sahani" class="founder-img">
+                <div class="years-exp">
+                    <span class="num">10+</span>
+                    <span class="text">Years</span>
+                </div>
+            </div>
+            
+            <div class="founder-info">
+                <h3>Mr. Manoj Sahani</h3>
+                <h4>Founder & Proprietor</h4>
+                <p>With a deep-rooted passion for hospitality and over 10 years of hands-on experience in the event management industry, Mr. Manoj Sahani has built "The Royal Events Planner" into a symbol of trust and excellence in Cooch Behar.</p>
+                <p>His meticulous attention to detail and dedication to client satisfaction ensure that every event is executed flawlessly.</p>
+                <p class="quote">"An event is not just a gathering of people; it is a collection of emotions, traditions, and memories that last a lifetime. Our vision is to take the stress off the families and deliver an experience so grand that it feels like magic. Your trust is our greatest asset."</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <h2 class="footer-logo">The Royal Events Planner</h2>
+            <div class="footer-info">
+                <i class="fa-solid fa-user-tie"></i>
+                <span><strong>Proprietor:</strong> Manoj Sahani</span>
+            </div>
+            <div class="footer-info">
+                <i class="fa-solid fa-location-dot"></i>
+                <span>Debi Bari, Nuta Para, Cooch Behar, PIN - 736101</span>
+            </div>
+            <div class="footer-info">
+                <i class="fa-solid fa-phone"></i>
+                <span>+91 8927727703</span> | <span>+91 8637344583</span>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 The Royal Events Planner. All Rights Reserved.
+        </div>
+    </footer>
+
+    <a href="https://wa.me/918927727703" class="whatsapp-float" target="_blank" title="Chat with us on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Mobile Menu Toggle & Click Outside to Close
+        const menuBtn = document.getElementById('menu-btn');
+        const navLinks = document.getElementById('nav-links');
+        const menuIcon = menuBtn;
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if(navLinks.classList.contains('active')){
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            } else {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            const isClickInsideMenu = navLinks.contains(event.target);
+            const isClickOnButton = menuBtn.contains(event.target);
+
+            if (!isClickInsideMenu && !isClickOnButton && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        // Scroll Reveal Animation 
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+    </script>
+</body>
+</html>
