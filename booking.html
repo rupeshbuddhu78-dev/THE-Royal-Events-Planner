@@ -166,10 +166,51 @@
         #success-message i { font-size: 50px; color: #4caf50; margin-bottom: 15px; }
         #success-message h3 { color: #2e7d32; font-size: 1.8rem; margin-bottom: 10px; }
 
-        /* --- FOOTER --- */
-        footer { background-color: var(--secondary-color); color: var(--text-light); padding: 50px 10% 20px; text-align: center; }
-        .footer-logo { font-size: 2rem; color: var(--primary-color); margin-bottom: 15px; font-family: 'Playfair Display', serif;}
-        .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; margin-top: 20px; font-size: 0.9rem; color: #aaa; }
+        /* --- UPDATED FOOTER --- */
+        footer { 
+            background-color: var(--secondary-color); 
+            color: var(--text-light); 
+            padding: 60px 10% 30px; 
+            text-align: center; 
+        }
+        .footer-logo { 
+            font-size: 2.5rem; 
+            color: var(--primary-color); 
+            margin-bottom: 30px; 
+            font-family: 'Playfair Display', serif;
+        }
+        .footer-contact-info {
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            line-height: 2;
+            color: #e0e0e0;
+        }
+        .footer-contact-info p {
+            margin-bottom: 15px;
+        }
+        .footer-contact-info i {
+            color: var(--primary-color);
+            margin-right: 12px;
+            font-size: 1.2rem;
+        }
+        .footer-phones {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #fff;
+            margin-top: 25px;
+        }
+        .footer-phones .divider {
+            color: var(--primary-color);
+            margin: 0 20px;
+            font-weight: 300;
+        }
+        .copyright { 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            padding-top: 25px; 
+            font-size: 0.95rem; 
+            color: #aaa; 
+            line-height: 1.8;
+        }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
@@ -184,6 +225,13 @@
             .form-row { grid-template-columns: 1fr; gap: 15px; }
             .button-group { flex-direction: column; gap: 15px; }
             .service-toggles { flex-direction: column; gap: 10px; }
+
+            /* Mobile Footer Adjustments */
+            footer { padding: 50px 20px 25px; }
+            .footer-logo { font-size: 2rem; margin-bottom: 25px; }
+            .footer-contact-info { font-size: 1rem; }
+            .footer-phones { display: flex; flex-direction: column; gap: 10px; font-size: 1.1rem; }
+            .footer-phones .divider { display: none; } /* Hide the | line on mobile so numbers stack cleanly */
         }
     </style>
 </head>
@@ -344,7 +392,21 @@
 
     <footer>
         <h2 class="footer-logo">The Royal Events Planner</h2>
-        <div class="copyright">&copy; 2026 The Royal Events Planner. All Rights Reserved.</div>
+        
+        <div class="footer-contact-info">
+            <p><i class="fa-solid fa-user-tie"></i> <strong>Proprietor:</strong> Manoj Sahani</p>
+            <p><i class="fa-solid fa-location-dot"></i> Debi Bari, Nuta Para, Cooch Behar,<br>West Bengal - 736101</p>
+            <p class="footer-phones">
+                <i class="fa-solid fa-phone"></i> +91 8927727703 
+                <span class="divider">|</span> 
+                +91 9641749008
+            </p>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 The Royal Events Planner | Top Rated Event Management in Cooch Behar<br>
+            All Rights Reserved.
+        </div>
     </footer>
 
     <script>
