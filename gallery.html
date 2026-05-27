@@ -13,8 +13,8 @@
     </script>
 
     <meta name="description" content="View the stunning event gallery of The Royal Events Planner. Explore our premium wedding decorations, birthday party setups, and catering memories in Cooch Behar.">
-    <meta name="keywords" content="Event gallery Cooch Behar, Wedding decoration photos Cooch Behar, Birthday party images, Event planner portfolio, Manoj Sahani event photos, The Royal Events pictures, Marriage stage decoration images">
-    <meta name="author" content="Manoj Sahani">
+    <meta name="keywords" content="Event gallery Cooch Behar, Wedding decoration photos Cooch Behar, Birthday party images, Event planner portfolio, Rupesh Kumar event photos, The Royal Events pictures, Marriage stage decoration images">
+    <meta name="author" content="Rupesh Kumar">
     <link rel="canonical" href="https://www.theroyaleventsplanner.in/gallery" />
 
     <link rel="icon" type="image/png" href="/favicon.png">
@@ -149,6 +149,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
+            align-items: start; /* Helps mix tall videos and short images nicely */
         }
 
         .gallery-item {
@@ -156,9 +157,14 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            height: 250px;
+            height: 250px; /* Default for photos */
             background-color: #000;
             animation: fadeIn 0.5s ease;
+        }
+
+        /* ✨ NEW: REEL VIDEO TALL SIZE ✨ */
+        .gallery-item.video-reel {
+            height: 500px; /* Tall height for Reels */
         }
 
         @keyframes fadeIn {
@@ -225,6 +231,11 @@
             
             .page-header h1 { font-size: 2.2rem; }
             .gallery-section { padding: 50px 20px; }
+            
+            .gallery-item.video-reel {
+                height: 450px; /* Fit well on mobile screens */
+            }
+
             .whatsapp-float { bottom: 20px; right: 20px; width: 50px; height: 50px; font-size: 25px; }
         }
     </style>
@@ -265,7 +276,7 @@
     <footer id="contact">
         <div class="footer-content">
             <h2 class="footer-logo">The Royal Events Planner</h2>
-            <div class="footer-info"><i class="fa-solid fa-user-tie"></i><span><strong>Proprietor:</strong> Manoj Sahani</span></div>
+            <div class="footer-info"><i class="fa-solid fa-user-tie"></i><span><strong>Proprietor:</strong> Rupesh Kumar</span></div>
             <div class="footer-info"><i class="fa-solid fa-location-dot"></i><span>Debi Bari, Nuta Para, Cooch Behar, PIN - 736101</span></div>
             <div class="footer-info"><i class="fa-solid fa-phone"></i><span>+91 8927727703</span></div>
         </div>
@@ -314,17 +325,17 @@
                     data.items.forEach(item => {
                         const isVideo = item.url.match(/\.(mp4|mov|webm)$/i);
                         
-                        let mediaTag = '';
-                        if (isVideo || item.category === 'video') {
-                            mediaTag = `<video controls src="${item.url}"></video>`;
-                        } else {
-                            // 🟢 7. DYNAMIC IMAGE ALT TAG HACK (For SEO)
-                            mediaTag = `<img src="${item.url}" alt="Premium ${item.category} decoration in Cooch Behar by The Royal Events Planner">`;
-                        }
-
                         const div = document.createElement('div');
-                        div.className = `gallery-item ${item.category}`; 
-                        div.innerHTML = mediaTag;
+                        
+                        if (isVideo || item.category === 'video') {
+                            // ✨ Adds 'video-reel' class specifically for tall videos ✨
+                            div.className = `gallery-item video-reel ${item.category}`; 
+                            div.innerHTML = `<video controls src="${item.url}"></video>`;
+                        } else {
+                            // Normal height for images
+                            div.className = `gallery-item ${item.category}`; 
+                            div.innerHTML = `<img src="${item.url}" alt="Premium ${item.category} decoration in Cooch Behar by The Royal Events Planner">`;
+                        }
                         
                         galleryGrid.appendChild(div);
                     });
