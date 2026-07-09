@@ -209,80 +209,10 @@
     </section>
 
     <section class="stage-section">
+        <!-- API ka dynamic data isi grid ke andar render hoga -->
         <div class="stage-grid">
-            
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹50,000+</div>
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop" alt="Royal Golden Mandap">
-                </div>
-                <div class="stage-content">
-                    <h3>The Royal Golden Mandap</h3>
-                    <p>A completely grand and VIP setup using imported exotic flowers, golden pillars, heavy crystal chandeliers, and premium carpeting. Perfect for luxury weddings.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹35,000+</div>
-                    <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=800&auto=format&fit=crop" alt="Floral Dream Reception Stage">
-                </div>
-                <div class="stage-content">
-                    <h3>Floral Dream Reception</h3>
-                    <p>An elegant and modern stage heavily decorated with fresh roses, orchids, and soft LED warm lighting. Ideal for receptions and ring ceremonies.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹25,000+</div>
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop" alt="Traditional Bengali Marwa">
-                </div>
-                <div class="stage-content">
-                    <h3>Traditional Bengali Marwa</h3>
-                    <p>Keep the tradition alive with a classic Bengali wedding setup featuring vibrant marigold flowers, traditional props, and a completely cultural aesthetic.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹80,000+</div>
-                    <img src="https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?q=80&w=800&auto=format&fit=crop" alt="LED VIP Concert Style Stage">
-                </div>
-                <div class="stage-content">
-                    <h3>VIP LED Digital Stage</h3>
-                    <p>The ultimate modern setup! Features a massive LED background wall, programmable moving lights, cold pyros, and a grand entry walkway.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹45,000+</div>
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop" alt="Outdoor Lawn Setup">
-                </div>
-                <div class="stage-content">
-                    <h3>Grand Outdoor Lawn Setup</h3>
-                    <p>Transform open grounds into a magical wonderland. Includes fairy lights canopy, rustic wooden stage elements, and natural greenery themes.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹15,000+</div>
-                    <img src="https://images.unsplash.com/photo-1522413452208-996906271241?q=80&w=800&auto=format&fit=crop" alt="Simple Elegance Setup">
-                </div>
-                <div class="stage-content">
-                    <h3>Simple & Elegant</h3>
-                    <p>A beautiful, budget-friendly stage with artificial floral arrangements, elegant drapes, and a lovely sofa seating. Best for Haldi, Mehndi or small gatherings.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
+            <!-- Loading text dynamic data aane tak dikhega -->
+            <p style="text-align: center; color: var(--secondary-color); font-weight: 500; grid-column: 1/-1;">Loading premium stages...</p>
         </div>
     </section>
 
@@ -355,7 +285,60 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        window.onload = reveal;
+
+        // --- API INTEGRATION (FETCH STAGES DATA) ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const stageGrid = document.querySelector('.stage-grid');
+
+            fetch('https://the-royal-events-admin.onrender.com/api/stages')
+                .then(response => response.json())
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        stageGrid.innerHTML = ''; // Loading text ko hatane ke liye
+
+                        data.forEach(item => {
+                            // API fields ke safe verification ke liye check lagaye hain
+                            const title = item.title || item.name || 'Premium Design';
+                            let price = item.price || 'Contact Us';
+                            
+                            // Agar price sirf number me aaye toh formatting ke liye
+                            if (typeof price === 'number' || (!price.includes('₹') && !isNaN(price))) {
+                                price = `₹${Number(price).toLocaleString('en-IN')}+`;
+                            }
+
+                            const imgUrl = item.image || item.imageUrl || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop';
+                            const description = item.description || item.details || '';
+
+                            // Naya dynamic card card-structure ke sath
+                            const card = document.createElement('div');
+                            card.className = 'stage-card reveal';
+
+                            card.innerHTML = `
+                                <div class="stage-img-wrapper">
+                                    <div class="price-badge">${price}</div>
+                                    <img src="${imgUrl}" alt="${title}">
+                                </div>
+                                <div class="stage-content">
+                                    <h3>${title}</h3>
+                                    <p>${description}</p>
+                                    <a href="/booking" class="card-btn">Book This Design</a>
+                                </div>
+                            `;
+
+                            stageGrid.appendChild(card);
+                        });
+
+                        // Cards append hone ke baad animation trigger karne ke liye
+                        reveal();
+                    } else {
+                        stageGrid.innerHTML = '<p style="text-align: center; width: 100%;">No stages available at the moment.</p>';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error fetching dynamic stages:', err);
+                    stageGrid.innerHTML = '<p style="text-align: center; width: 100%; color: red;">Failed to load data. Please check your connection.</p>';
+                });
+        });
     </script>
 </body>
 </html>
