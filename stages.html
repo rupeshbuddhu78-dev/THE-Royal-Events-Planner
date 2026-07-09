@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,7 +111,7 @@
         .page-header p { font-size: 1.2rem; font-weight: 300; max-width: 600px; padding: 0 20px; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
         /* --- STAGE PACKAGES GRID (3D CARDS) --- */
-        .stage-section { padding: 80px 5%; background-color: var(--bg-light); max-width: 1400px; margin: 0 auto; }
+        .stage-section { padding: 80px 5%; background-color: var(--bg-light); max-width: 1400px; margin: 0 auto; min-height: 50vh; }
         
         .stage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; perspective: 1200px; }
         
@@ -153,6 +152,8 @@
         }
         .stage-card:hover .card-btn { background: var(--primary-color); color: #fff; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
 
+        .loader { text-align: center; font-size: 1.2rem; color: var(--primary-color); grid-column: 1 / -1; padding: 40px; }
+
         /* --- FOOTER --- */
         footer { background-color: var(--secondary-color); color: var(--text-light); padding: 70px 10% 30px; text-align: center; border-top: 5px solid var(--primary-color);}
         .footer-content { display: flex; flex-direction: column; align-items: center; gap: 15px; }
@@ -161,9 +162,8 @@
         .footer-info i { color: var(--primary-color); }
         .copyright { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 40px; font-size: 0.95rem; color: #aaa; }
 
-        /* --- WHATSAPP FLOAT --- */
-        @keyframes pulseWA { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
-        .whatsapp-float { position: fixed; width: 65px; height: 65px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50%; text-align: center; font-size: 35px; z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.3s; animation: pulseWA 2s infinite; }
+        /* --- WHATSAPP FLOAT (Pulse removed) --- */
+        .whatsapp-float { position: fixed; width: 65px; height: 65px; bottom: 40px; right: 40px; background-color: #25d366; color: #FFF; border-radius: 50%; text-align: center; font-size: 35px; z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.3s; }
         .whatsapp-float:hover { transform: scale(1.15) rotate(10deg); background-color: #20b858; }
 
         /* --- RESPONSIVE DESIGN --- */
@@ -205,80 +205,8 @@
     </section>
 
     <section class="stage-section">
-        <div class="stage-grid">
-            
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹50,000+</div>
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop" alt="Royal Golden Mandap">
-                </div>
-                <div class="stage-content">
-                    <h3>The Royal Golden Mandap</h3>
-                    <p>A completely grand and VIP setup using imported exotic flowers, golden pillars, heavy crystal chandeliers, and premium carpeting. Perfect for luxury weddings.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹35,000+</div>
-                    <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?q=80&w=800&auto=format&fit=crop" alt="Floral Dream Reception Stage">
-                </div>
-                <div class="stage-content">
-                    <h3>Floral Dream Reception</h3>
-                    <p>An elegant and modern stage heavily decorated with fresh roses, orchids, and soft LED warm lighting. Ideal for receptions and ring ceremonies.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹25,000+</div>
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800&auto=format&fit=crop" alt="Traditional Bengali Marwa">
-                </div>
-                <div class="stage-content">
-                    <h3>Traditional Bengali Marwa</h3>
-                    <p>Keep the tradition alive with a classic Bengali wedding setup featuring vibrant marigold flowers, traditional props, and a completely cultural aesthetic.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹80,000+</div>
-                    <img src="https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?q=80&w=800&auto=format&fit=crop" alt="LED VIP Concert Style Stage">
-                </div>
-                <div class="stage-content">
-                    <h3>VIP LED Digital Stage</h3>
-                    <p>The ultimate modern setup! Features a massive LED background wall, programmable moving lights, cold pyros, and a grand entry walkway.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹45,000+</div>
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800&auto=format&fit=crop" alt="Outdoor Lawn Setup">
-                </div>
-                <div class="stage-content">
-                    <h3>Grand Outdoor Lawn Setup</h3>
-                    <p>Transform open grounds into a magical wonderland. Includes fairy lights canopy, rustic wooden stage elements, and natural greenery themes.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
-            <div class="stage-card reveal">
-                <div class="stage-img-wrapper">
-                    <div class="price-badge">₹15,000+</div>
-                    <img src="https://images.unsplash.com/photo-1522413452208-996906271241?q=80&w=800&auto=format&fit=crop" alt="Simple Elegance Setup">
-                </div>
-                <div class="stage-content">
-                    <h3>Simple & Elegant</h3>
-                    <p>A beautiful, budget-friendly stage with artificial floral arrangements, elegant drapes, and a lovely sofa seating. Best for Haldi, Mehndi or small gatherings.</p>
-                    <a href="/booking" class="card-btn">Book This Design</a>
-                </div>
-            </div>
-
+        <div class="stage-grid" id="stageGrid">
+            <div class="loader" id="stageLoader"><i class="fa-solid fa-spinner fa-spin"></i> Loading Premium Stages...</div>
         </div>
     </section>
 
@@ -351,7 +279,49 @@
             }
         }
         window.addEventListener("scroll", reveal);
-        window.onload = reveal;
+
+        // --- DYNAMIC DATA FETCHING LOGIC ---
+        const SERVER_URL = "https://the-royal-events-admin.onrender.com";
+
+        async function fetchLiveStages() {
+            const grid = document.getElementById('stageGrid');
+            
+            try {
+                const response = await fetch(`${SERVER_URL}/api/stages`);
+                const result = await response.json();
+                
+                if(result.success && result.data && result.data.length > 0) {
+                    grid.innerHTML = ''; // Clear the loader
+                    
+                    result.data.forEach(stage => {
+                        // Adding "reveal active" so it instantly shows without needing to scroll
+                        grid.innerHTML += `
+                            <div class="stage-card reveal active">
+                                <div class="stage-img-wrapper">
+                                    <div class="price-badge">${stage.price}</div>
+                                    <img src="${stage.imageUrl}" alt="${stage.heading}">
+                                </div>
+                                <div class="stage-content">
+                                    <h3>${stage.heading}</h3>
+                                    <p>${stage.text}</p>
+                                    <a href="/booking" class="card-btn">Book This Design</a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#777;">New stages coming soon!</p>';
+                }
+            } catch(error) {
+                console.error("Error fetching stages:", error);
+                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:red;">Failed to load stages. Please check your internet or try again later.</p>';
+            }
+        }
+
+        window.onload = () => {
+            fetchLiveStages();
+            reveal();
+        };
     </script>
 </body>
 </html>
